@@ -1,7 +1,7 @@
 #include "operation.h"
 
-#ifndef __OP_MULTIPLY_INCLUDED__   // if operation.h hasn't been included yet...
-#define __OP_MULTIPLY_INCLUDED__   //   #define this so the compiler knows it has been included
+#ifndef __OP_MULTIPLY_INCLUDED__  
+#define __OP_MULTIPLY_INCLUDED__  
 
 class MultiplyOperation : public Operation {
 
