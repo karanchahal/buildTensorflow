@@ -2,19 +2,19 @@
 
 #ifndef __OP_MULTIPLY_INCLUDED__  
 #define __OP_MULTIPLY_INCLUDED__  
-
-class MultiplyOperation : public Operation {
+template <typename T>
+class MultiplyOperation : public Operation<T> {
 
     public:
-        FloatTensor *t1, *t2; // generally an operation had two operands
+        Tensor<T> *t1, *t2; // generally an operation had two operands
     
-    MultiplyOperation(FloatTensor *t1, FloatTensor *t2) {
+    MultiplyOperation(Tensor<T> *t1, Tensor<T> *t2) {
         this->t1 = t1;
         this->t2 = t2;
     }
-    void backward(float grad);
+    void backward(vector<T> grad);
 
-    FloatTensor compute();
+    Tensor<T> forward();
 };
 
 #endif
