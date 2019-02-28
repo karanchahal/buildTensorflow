@@ -14,7 +14,8 @@ void MultiplyOperation<T>::backward(vector<T> grad) {
 
 template <typename T>
 Tensor<T> MultiplyOperation<T>::forward() {
-    return Tensor<T>(this->t1->val*this->t2->val, this);
+    this->t3 = new Tensor<T>(this->t1->val*this->t2->val, this);
+    return *this->t3;
 }
 
 template <typename T>
@@ -27,7 +28,8 @@ void AddOperation<T>::backward(vector<T> grad) {
 
 template <typename T>
 Tensor<T> AddOperation<T>::forward() {
-    return Tensor<T>(this->t1->val+this->t2->val, this);
+    this->t3 = new Tensor<T>(this->t1->val+this->t2->val, this);
+    return *this->t3;
 }
 
 // x/y is forward

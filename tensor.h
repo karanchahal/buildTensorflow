@@ -8,6 +8,15 @@
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   
 
+template<typename T>
+void printTensor(vector<T> &a) {
+    for(auto i: a) {
+        cout<<i<<" ";
+    }
+    cout<<endl;
+}
+
+
 template <typename T>
 class Tensor {
     public:
@@ -17,6 +26,13 @@ class Tensor {
 
     Tensor() {
         // default
+    }
+
+    Tensor(const Tensor<T> *two) {
+        this->val = two->val;
+        this->backOp = two->backOp;
+        this->frontOp = two->frontOp;
+        this->grad = two->grad;
     }
 
     Tensor(vector<T> val) {
@@ -29,6 +45,7 @@ class Tensor {
     }
 
     void backward(vector<T> grad) {
+        // printTensor(this->val);
         this->grad = grad;
         if(this->backOp != NULL) {
             this->backOp->backward(grad);
@@ -37,16 +54,33 @@ class Tensor {
 
     Tensor<T> operator * (Tensor<T> &two) { 
         this->frontOp = new MultiplyOperation<T>(this, &two);
+        two.frontOp = this->frontOp;
         return this->frontOp->forward();
     }
 
-    Tensor<T> operator + (Tensor<T> two) { 
+    Tensor<T> operator * (const Tensor<T> &two) { 
+        Tensor<T>* temp = new Tensor<T>(&two);
+        this->frontOp = new MultiplyOperation<T>(this, temp);
+        temp->frontOp = this->frontOp;
+        return this->frontOp->forward();
+    }
+
+    Tensor<T> operator + (Tensor<T> &two) { 
         this->frontOp = new AddOperation<T>(this, &two);
+        two.frontOp = this->frontOp;
+        return this->frontOp->forward();
+    }
+
+    Tensor<T> operator + (const Tensor<T> &two) { 
+        Tensor<T>* temp = new Tensor<T>(&two);
+        this->frontOp = new AddOperation<T>(this, temp);
+        temp->frontOp = this->frontOp;
         return this->frontOp->forward();
     }
 
     Tensor<T> operator / (Tensor<T> &two) { 
         this->frontOp = new DivideOperation<T>(this, &two);
+        two.frontOp = this->frontOp;
         return this->frontOp->forward();
     }
 
