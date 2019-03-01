@@ -42,23 +42,23 @@ void sigmoidTest() {
 //3. For the problems of temporaries
 int main() {
 
+ Tensor<float> w0(vector<float>{2});
+    Tensor<float> x0(vector<float>{-1});
 
-    vector<float> ded;
-    // sigmoidTest();
-    Tensor<float> w0(vector<float>{2});
-    Tensor<float> x0(vector<float>{3});
+    Tensor<float> w1(vector<float>{-3});
+    Tensor<float> x1(vector<float>{-2});
 
-    Tensor<float> w1(vector<float>{4});
-    Tensor<float> x1(vector<float>{5});
+    Tensor<float> w3(vector<float>{-3});
+    
+    Tensor<float> e = Tensor<float>(vector<float>{-1});
+    Tensor<float> h = Tensor<float>(vector<float>{1});
+    Tensor<float> j = Tensor<float>(vector<float>{1});
 
-    Tensor<float> w3(vector<float>{2});
-    Tensor<float> x3(vector<float>{5});
+    Tensor<float> a = e*(w0*x0 + w1*x1 + w3);
+    Tensor<float> k = j/(a.exp() + h);
+    k.backward(vector<float>{1});
 
-    Tensor<float> x4(vector<float>{2});
 
-    Tensor<float> a = x4*(w0*x0 + w1*x1 + w3*x3);
-    printTensor(a.val);
-    a.backward(vector<float>{1});
     printTensor(w0.grad);
     printTensor(x0.grad);
 
@@ -66,7 +66,8 @@ int main() {
     printTensor(x1.grad);
 
     printTensor(w3.grad);
-    printTensor(x3.grad);
 
-    printTensor(x4.grad);
+    cout<<endl;
+
+    sigmoidTest();
 }

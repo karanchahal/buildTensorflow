@@ -46,7 +46,8 @@ void DivideOperation<T>::backward(vector<T> grad) {
 
 template <typename T>
 Tensor<T> DivideOperation<T>::forward() {
-    return Tensor<T>(this->t1->val*this->t2->val, this);
+    this->t3 = new Tensor<T>(this->t1->val*this->t2->val, this);
+    return *this->t3;
 }
 
 // Exponent Backprop
@@ -57,7 +58,8 @@ void ExponentOperation<T>::backward(vector<T> grad) {
 
 template <typename T>
 Tensor<T> ExponentOperation<T>::forward() {
-    return Tensor<T>(exponent(this->t1->val), this);
+    this->t3 = new Tensor<T>(exponent(this->t1->val), this);
+    return *this->t3;
 }
 
 

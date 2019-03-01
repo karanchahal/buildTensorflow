@@ -44,6 +44,14 @@ class Tensor {
         this->backOp = op;
     }
 
+    bool isConstz(const Tensor<T> &one) {
+        return true;
+    }
+
+    bool isConstz(Tensor<T> &one) {
+        return false;
+    }
+
     void backward(vector<T> grad) {
         // printTensor(this->val);
         this->grad = grad;
@@ -52,7 +60,10 @@ class Tensor {
         }
     }
 
+    // Overloading Operations , one for const and one for actual variable
+    // hence each operation has two overloads, except exp()
     Tensor<T> operator * (Tensor<T> &two) { 
+        bool isConst = isConstz(*this);
         this->frontOp = new MultiplyOperation<T>(this, &two);
         two.frontOp = this->frontOp;
         return this->frontOp->forward();
@@ -64,6 +75,7 @@ class Tensor {
         temp->frontOp = this->frontOp;
         return this->frontOp->forward();
     }
+
 
     Tensor<T> operator + (Tensor<T> &two) { 
         this->frontOp = new AddOperation<T>(this, &two);
@@ -84,11 +96,17 @@ class Tensor {
         return this->frontOp->forward();
     }
 
+    Tensor<T> operator / (const Tensor<T> &two) { 
+        Tensor<T>* temp = new Tensor<T>(&two);
+        this->frontOp = new DivideOperation<T>(this, temp);
+        temp->frontOp = this->frontOp;
+        return this->frontOp->forward();
+    }
+
     Tensor<T> exp() { 
         this->frontOp = new ExponentOperation<T>(this);
         return this->frontOp->forward();
     }
 };
-
 
 #endif
