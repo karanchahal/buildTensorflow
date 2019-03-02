@@ -20,7 +20,7 @@ Tensor<T> MultiplyOperation<T>::forward() {
 template <typename T>
 void AddOperation<T>::backward(vector<T> grad) {
     // cout<<this->t2->val<<endl;
-    // Distributing case: weherre gradients are backproped as is
+    // Distributing case: where gradients are backproped as is
     this->t1->backward(grad);
     this->t2->backward(grad);
 }

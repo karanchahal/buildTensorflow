@@ -11,6 +11,7 @@ void printTensor(vector<T> &a) {
 
 
 void sigmoidTest() {
+    
     Tensor<float> w0(vector<float>{2});
     Tensor<float> x0(vector<float>{-1});
 
@@ -19,19 +20,13 @@ void sigmoidTest() {
 
     Tensor<float> w3(vector<float>{-3});
 
-
-    Tensor<float> a = w0*x0;
-    Tensor<float> b = w1*x1;
-    Tensor<float> c = a + b;
-    Tensor<float> d = w3+c;
     Tensor<float> e = Tensor<float>(vector<float>{-1});
-    Tensor<float> f = d*e;
-    Tensor<float> g = f.exp();
     Tensor<float> h = Tensor<float>(vector<float>{1});
-    Tensor<float> i = g + h;
     Tensor<float> j = Tensor<float>(vector<float>{1});
-    Tensor<float> k = j/i;
 
+    Tensor<float> a = e*(w0*x0 + w1*x1 + w3);
+    Tensor<float> k = j/(a.exp() + h);
+    
     k.backward(vector<float>{1});
 
 
@@ -46,6 +41,5 @@ void sigmoidTest() {
 
 
 int main() {
-
     sigmoidTest();
 }
