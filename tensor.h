@@ -28,6 +28,13 @@ class Tensor {
         // default
     }
 
+    // This is a copy constrructore needed for when we encounter temporaries.
+    // In a big expression, for example a*(b+c) has the (b+c) temporary
+    // which comes in the form of const Tensor, this const Tensor gives problems and
+    // weird values for grad and val when backpropping through it.
+    // We create a normal non const Tensor whenever we encounter this const Tensor, 
+    // hence this copy constructor is used. Check the const operator overloading for
+    // usage of this constructor.
     Tensor(const Tensor<T> *two) {
         this->val = two->val;
         this->backOp = two->backOp;
@@ -44,14 +51,6 @@ class Tensor {
         this->backOp = op;
     }
 
-    bool isConstz(const Tensor<T> &one) {
-        return true;
-    }
-
-    bool isConstz(Tensor<T> &one) {
-        return false;
-    }
-
     void backward(vector<T> grad) {
         // printTensor(this->val);
         this->grad = grad;
@@ -63,7 +62,6 @@ class Tensor {
     // Overloading Operations , one for const and one for actual variable
     // hence each operation has two overloads, except exp()
     Tensor<T> operator * (Tensor<T> &two) { 
-        bool isConst = isConstz(*this);
         this->frontOp = new MultiplyOperation<T>(this, &two);
         two.frontOp = this->frontOp;
         return this->frontOp->forward();

@@ -2,7 +2,7 @@
 #include "operations_Impl.h"
 
 
-void sigmoidTest() {
+void oldSigmoidTest() {
     Tensor<float> w0(vector<float>{2});
     Tensor<float> x0(vector<float>{-1});
 
@@ -11,7 +11,6 @@ void sigmoidTest() {
 
     Tensor<float> w3(vector<float>{-3});
     
-
     Tensor<float> a = w0*x0;
     Tensor<float> b = w1*x1;
     Tensor<float> c = a + b;
@@ -36,13 +35,8 @@ void sigmoidTest() {
     printTensor(w3.grad);
 }
 
-// Thoughts are
-//1. One should be a class 
-//2. Put both as by reference
-//3. For the problems of temporaries
-int main() {
-
- Tensor<float> w0(vector<float>{2});
+void newSigmoidTest() {
+    Tensor<float> w0(vector<float>{2});
     Tensor<float> x0(vector<float>{-1});
 
     Tensor<float> w1(vector<float>{-3});
@@ -66,8 +60,14 @@ int main() {
     printTensor(x1.grad);
 
     printTensor(w3.grad);
+}
+
+
+int main() {
+
+    oldSigmoidTest();
 
     cout<<endl;
 
-    sigmoidTest();
+    newSigmoidTest();
 }

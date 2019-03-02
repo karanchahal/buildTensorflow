@@ -14,7 +14,7 @@ void MultiplyOperation<T>::backward(vector<T> grad) {
 
 template <typename T>
 Tensor<T> MultiplyOperation<T>::forward() {
-    this->t3 = new Tensor<T>(this->t1->val*this->t2->val, this);
+    this->t3 = new Tensor<T>(this->t1->val * this->t2->val, this);
     return *this->t3;
 }
 
@@ -28,7 +28,7 @@ void AddOperation<T>::backward(vector<T> grad) {
 
 template <typename T>
 Tensor<T> AddOperation<T>::forward() {
-    this->t3 = new Tensor<T>(this->t1->val+this->t2->val, this);
+    this->t3 = new Tensor<T>(this->t1->val + this->t2->val, this);
     return *this->t3;
 }
 
@@ -39,14 +39,14 @@ template <typename T>
 void DivideOperation<T>::backward(vector<T> grad) {
     // cout<<this->t2->val<<endl;
     // Swithing case: weherre gradients are multiplied with the opposite tensor
-    this->t1->backward(grad/this->t2->val);
-    vector<T> temp = grad*this->t1->val;
-    this->t2->backward(temp*( (T)(-1)/ (this->t2->val^(T)2)));
+    this->t1->backward(grad / this->t2->val);
+    vector<T> temp = grad * this->t1->val;
+    this->t2->backward(temp*( (T)(-1) / (this->t2->val^(T)2)));
 }
 
 template <typename T>
 Tensor<T> DivideOperation<T>::forward() {
-    this->t3 = new Tensor<T>(this->t1->val*this->t2->val, this);
+    this->t3 = new Tensor<T>(this->t1->val / this->t2->val, this);
     return *this->t3;
 }
 
