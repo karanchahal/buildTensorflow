@@ -6,7 +6,8 @@ template <typename T>
 class MultiplyOperation : public Operation<T> {
 
     public:
-        Tensor<T> *t1, *t2; // generally an operation had two operands
+        Tensor<T> *t1, *t2; // Input tensors
+        Tensor<T> *t3; // Output tensor
     
     MultiplyOperation(Tensor<T> *t1, Tensor<T> *t2) {
         this->t1 = t1;
