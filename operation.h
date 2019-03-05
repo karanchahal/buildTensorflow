@@ -6,21 +6,32 @@ performed on one or more tensors.
 #ifndef __OP_H_INCLUDED__   
 #define __OP_H_INCLUDED__   
 
-#include <iostream>
-#include <vector>
+#include "common.h"
+#include "matrix.h"
 
-using namespace std; 
-
+//Forward Declaration
 template<typename T>
 class Tensor;
 
 template<typename T>
 class Operation {
     public:
-        Tensor<T> *t1, *t2; // generally an operation has two operands
+    Tensor<T> *t1 = NULL, *t2 = NULL; // generally an operation had two operands
+    
+    Operation() {
 
-        virtual void backward(vector<T> grad) = 0;
-        virtual Tensor<T> forward() = 0;
+    }
+    Operation(Tensor<T> *t1) {
+        this->t1 = t1;
+    }
+
+    Operation(Tensor<T> *t1, Tensor<T> *t2) {
+        this->t1 = t1;
+        this->t2 = t2;
+    }
+
+    virtual void backward(Matrix<T> grad) = 0;
+    virtual Tensor<T> forward() = 0;
 };
 
 #endif
