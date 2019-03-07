@@ -4,7 +4,6 @@
 #include "divideOperation.h"
 #include "exponentOperation.h"
 
-
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   
 
@@ -15,7 +14,6 @@ void printTensor(vector<T> &a) {
     }
     cout<<endl;
 }
-
 
 template <typename T>
 class Tensor {
@@ -73,7 +71,6 @@ class Tensor {
         temp->frontOp = this->frontOp;
         return this->frontOp->forward();
     }
-
 
     Tensor<T> operator + (Tensor<T> &two) { 
         this->frontOp = new AddOperation<T>(this, &two);
