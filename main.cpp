@@ -5,7 +5,6 @@ This file contains code that is used to debug the project by implementing tests.
 #include "tensor.h" 
 #include "operations_Impl.h"
 
-
 void oldSigmoidTest() {
     Tensor<float> w0(vector<float>{2});
     Tensor<float> x0(vector<float>{-1});
