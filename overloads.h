@@ -1,12 +1,13 @@
-#include<vector>
 #include "assert.h"
-#include<cmath>
+
+#include <vector>
+#include <cmath>
+
 using namespace std;
 
 // Multiplication
 template<typename T>
 vector<T> operator * (vector<T> &a, const vector<T> &b) {
-
     assert("Tensors are not of the same size !" && a.size() == b.size());
     vector<T> arr;
     for(int i = 0;i<a.size();i++) {
@@ -19,7 +20,6 @@ vector<T> operator * (vector<T> &a, const vector<T> &b) {
 // Addition
 template<typename T>
 vector<T> operator + (vector<T> &a, const vector<T> &b) {
-
     assert("Tensors are not of the same size !" && a.size() == b.size());
     vector<T> arr;
     for(int i = 0;i<a.size();i++) {
@@ -32,7 +32,6 @@ vector<T> operator + (vector<T> &a, const vector<T> &b) {
 // Vector Divide
 template<typename T>
 vector<T> operator / (vector<T> &a, const vector<T> &b) {
-
     assert("Tensors are not of the same size !" && a.size() == b.size());
     vector<T> arr;
     for(int i = 0;i<a.size();i++) {
@@ -45,7 +44,6 @@ vector<T> operator / (vector<T> &a, const vector<T> &b) {
 // Scalar divide
 template<typename T>
 vector<T> operator / (T a, const vector<T> &b) {
-
     vector<T> arr;
     for(int i = 0;i<b.size();i++) {
         T prod = a/b[i];
@@ -54,11 +52,9 @@ vector<T> operator / (T a, const vector<T> &b) {
     return arr;
 }
 
-
 // Power Operation
 template<typename T>
 vector<T> operator ^ (vector<T> &a, const T b) {
-
     vector<T> arr;
     for(int i = 0;i<a.size();i++) {
         T prod = pow(a[i], b);
@@ -67,12 +63,9 @@ vector<T> operator ^ (vector<T> &a, const T b) {
     return arr;
 }
 
-
-
 // Expoenent Operation
 template<typename T>
 vector<T> exponent(vector<T> &a) {
-
     vector<T> arr;
     for(int i = 0;i<a.size();i++) {
         T prod = exp(a[i]);
