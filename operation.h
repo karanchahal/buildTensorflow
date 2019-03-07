@@ -1,3 +1,8 @@
+/*
+This file defines the Operation base class which represents an operation
+performed on one or more tensors.
+*/
+
 #ifndef __OP_H_INCLUDED__   
 #define __OP_H_INCLUDED__   
 

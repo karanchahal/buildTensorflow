@@ -1,3 +1,8 @@
+/*
+This file defines the DivideOperation class which represents the division of
+two tensors.
+*/
+
 #include "operation.h"
 
 #ifndef __OP_DIV_INCLUDED__   

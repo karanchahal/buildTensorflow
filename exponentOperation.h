@@ -1,3 +1,8 @@
+/*
+This file defines the ExponentOperation class which represents the
+exponentiation of a tensor.
+*/
+
 #include "operation.h"
 
 

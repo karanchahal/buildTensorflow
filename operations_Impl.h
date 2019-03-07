@@ -1,3 +1,8 @@
+/*
+This file contains the implementation of the forward and backward pass of
+the operations.
+*/
+
 #include "multiplyOperation.h"
 #include "addOperation.h"
 #include "divideOperation.h"

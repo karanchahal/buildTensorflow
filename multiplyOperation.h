@@ -1,3 +1,8 @@
+/*
+This file defines the MultiplyOperation class which represents the
+multiplication of two tensors.
+*/
+
 #include "operation.h"
 
 #ifndef __OP_MULTIPLY_INCLUDED__  

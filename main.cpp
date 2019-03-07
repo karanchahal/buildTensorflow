@@ -1,3 +1,7 @@
+/*
+This file contains code that is used to debug the project by implementing tests.
+*/
+
 #include "tensor.h" 
 #include "operations_Impl.h"
 

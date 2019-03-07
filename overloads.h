@@ -1,3 +1,8 @@
+/*
+This file defines the arithmetic operator overloads for Tensor class objects and
+implements the operations.
+*/
+
 #include<vector>
 #include "assert.h"
 #include<cmath>
