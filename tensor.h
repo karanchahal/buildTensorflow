@@ -1,3 +1,9 @@
+/*
+This file defines the Tensor class which stores the matrices used for
+computations by the library, as well as the forward and backward operations
+being executed on it in the form of pointers to Operation objects.
+*/
+
 #include "operation.h"
 #include "addOperation.h"
 #include "multiplyOperation.h"
