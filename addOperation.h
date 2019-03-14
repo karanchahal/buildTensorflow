@@ -26,3 +26,4 @@ class AddOperation : public Operation<T> {
 };
 
 #endif
+

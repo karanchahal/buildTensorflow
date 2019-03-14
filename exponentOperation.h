@@ -25,3 +25,4 @@ class ExponentOperation : public Operation<T> {
 };
 
 #endif
+

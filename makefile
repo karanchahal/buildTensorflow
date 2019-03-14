@@ -10,3 +10,4 @@ test: test.cpp
 gpuTest: cudaOps.cu
 	nvcc -std=c++14 cudaOps.cu -o build/cuda.o
 	./build/cuda.o
+	

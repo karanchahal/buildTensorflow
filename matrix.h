@@ -323,3 +323,4 @@ Matrix<E> operator / (const E e, const Matrix<E> &rhs) {
 }
 
 #endif
+

@@ -81,3 +81,4 @@ Tensor<T> ExponentOperation<T>::forward() {
     this->t3 = new Tensor<T>(this->t1->val.exp(), this);
     return *this->t3;
 }
+

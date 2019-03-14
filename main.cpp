@@ -105,3 +105,4 @@ int main() {
     cout<<endl;
     newSigmoidTest();
 }
+

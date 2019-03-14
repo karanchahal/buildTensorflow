@@ -75,3 +75,4 @@ vector<T> exponent(const vector<T> &a) {
 }
 
 #endif
+

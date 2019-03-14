@@ -26,3 +26,4 @@ class DivideOperation : public Operation<T> {
 };
 
 #endif
+

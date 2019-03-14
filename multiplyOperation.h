@@ -24,3 +24,4 @@ class MultiplyOperation : public Operation<T> {
 };
 
 #endif
+
