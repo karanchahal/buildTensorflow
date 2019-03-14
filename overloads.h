@@ -1,13 +1,8 @@
-/*
-This file defines the arithmetic operator overloads for Tensor class objects and
-implements the operations.
-*/
-#include "assert.h"
-
-#include <vector>
+#include "common.h"
 #include <cmath>
 
-using namespace std;
+#ifndef __VEC_OVERLOADS_FLOAT_INCLUDED__   
+#define __VEC_OVERLOADS_FLOAT_INCLUDED__  
 
 // Multiplication
 template<typename T>
@@ -69,7 +64,8 @@ vector<T> operator ^ (vector<T> &a, const T b) {
 
 // Expoenent Operation
 template<typename T>
-vector<T> exponent(vector<T> &a) {
+vector<T> exponent(const vector<T> &a) {
+
     vector<T> arr;
     for(int i = 0;i<a.size();i++) {
         T prod = exp(a[i]);
@@ -77,3 +73,6 @@ vector<T> exponent(vector<T> &a) {
     }
     return arr;
 }
+
+#endif
+
