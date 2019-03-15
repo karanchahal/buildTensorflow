@@ -18,7 +18,7 @@ class Operation {
     public:
     Tensor<T> *t1 = NULL, *t2 = NULL; // generally an operation had two operands
     Tensor<T> *t3 = NULL; // Output tensor
-    
+
     Operation() {
 
     }

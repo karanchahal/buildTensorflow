@@ -90,19 +90,24 @@ API guide:
 
 int main() {
     vector<int> a({1,2,3,4,5,6});
-    vector<int> b({1,2,3,4,5,6,4,5,6});
+    vector<int> b({1,2,3});
     vector<int> shape1({2,3});
-    vector<int> shape2({3,3});
-    Matrix<int> m1(a,shape1);
-    Matrix<int> m2(b,shape2);
+    vector<int> shape2({3,1});
+    Tensor<int> m1(a,shape1);
+    Tensor<int> m2(b,shape2);
     
   
-    cout<<m1<<endl;
-    cout<<m2<<endl;
+    cout<<m1.val<<endl;
+    cout<<m2.val<<endl;
     auto m3 = m1.dot(m2);
-    cout<<m3<<endl;
-    oldSigmoidTest();
-    cout<<endl;
-    newSigmoidTest();
+    cout<<m3.val<<endl;
+
+    vector<int> vsl = {1,1};
+    auto grad = Matrix<int>(vsl,m3.val.shape);
+    m3.backward(grad);
+
+    // oldSigmoidTest();
+    // cout<<endl;
+    // newSigmoidTest();
 }
 

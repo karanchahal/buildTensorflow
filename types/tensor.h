@@ -57,7 +57,7 @@ class Tensor {
     }
 
     void backward(Matrix<T> grad) {
-        // TODO: add assertions that the gradient is of the same shape of val
+        assert(grad.shape == val.shape && "The gradient and the tensor shapes do not match !");
         this->grad = grad;
         if(this->backOp != NULL) {
             this->backOp->backward(grad);

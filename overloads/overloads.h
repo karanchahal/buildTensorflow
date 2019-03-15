@@ -74,5 +74,24 @@ vector<T> exponent(const vector<T> &a) {
     return arr;
 }
 
+// isEquals operator
+template<typename T>
+bool operator == (const vector<T> &a, const vector<T> &b) {
+    int n = a.size();
+    int m = b.size();
+
+    if(n != m) {
+        return false;
+    }
+
+    for(int i=0;i<n;i++) {
+        if(a[i] != b[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 #endif
 
