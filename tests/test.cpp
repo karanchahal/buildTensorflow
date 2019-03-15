@@ -1,6 +1,6 @@
 #include<iostream>
 #include <gtest/gtest.h>
-#include "tensor/matrix.h"
+#include "types/matrix.h"
 
 using namespace std;
 
