@@ -4,12 +4,12 @@ computations by the library, as well as the forward and backward operations
 being executed on it in the form of pointers to Operation objects.
 */
 
-#include "operation.h"
-#include "addOperation.h"
-#include "multiplyOperation.h"
-#include "divideOperation.h"
-#include "exponentOperation.h"
-#include "dotOperation.h"
+#include "operations/operation.h"
+#include "operations/addOperation.h"
+#include "operations/multiplyOperation.h"
+#include "operations/divideOperation.h"
+#include "operations/exponentOperation.h"
+#include "operations/dotOperation.h"
 
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   

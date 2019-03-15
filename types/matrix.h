@@ -2,8 +2,8 @@
     This file defines the Matrix class. Matrix supports creation of n dimensional arrays
     It supports various arithmetic and matrix operations.
 */
-#include "common.h"
-#include "overloads.h"
+#include "utils/common.h"
+#include "overloads/overloads.h"
 
 #ifndef __MATRIX_FLOAT_INCLUDED__   
 #define __MATRIX_FLOAT_INCLUDED__  
