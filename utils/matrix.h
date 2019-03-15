@@ -3,7 +3,7 @@
 namespace utils {
 
     template< typename T>
-    Matrix<T> transpose(Matrix<T> m, vector<int> transposeIndices) {
+    Matrix<T> transpose(const Matrix<T> &m, vector<int> transposeIndices) {
         assert(transposeIndices.size() == m.shape.size() && 
         "Transpose indices don't match shape for transpose operation");
         vector<int> shape(m.shape.size(),0);
@@ -12,5 +12,5 @@ namespace utils {
         }
 
         return Matrix<T>(m.val,shape);
-    } 
+    }
 }
