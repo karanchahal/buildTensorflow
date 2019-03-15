@@ -84,7 +84,7 @@ API guide:
     Cases will be multilayer perceptron, batch size, input vector
     layer weights would be input vector, output layer, hence add one to batch size dim
     The matrix multiply the uses two interior dims as 2D matrices as input
-     Output will be 
+    Output will be 
 
 */
 
