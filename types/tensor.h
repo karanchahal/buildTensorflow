@@ -30,6 +30,21 @@
 
 template <typename T>
 class Tensor {
+    private:
+
+    /*
+        This function is called during the initilaisation of Tensor. It sets the value of it's gradients to zero. This is needed as 
+        during backPropogation the same tensor can be used for different operation, hence to calculate it's partial gradients
+        each individual operation's gradients have to be summed up. Hence we initialise the tensor's gradients to zero.
+        
+        See constructor for it's usage.
+    */
+    void zeroGrad() {
+        assert(val.shape.size() != 0 && "The value of matrix cannot be uninitialised during initialisng zeros in tensor's gradient");
+        vector<T> g(val.val.size(),0);
+        this->grad = Matrix<T>(g,val.shape);
+    }
+
     public:
     
     /*
@@ -74,15 +89,17 @@ class Tensor {
     // Constructor to create Tensor from a Matrix
     Tensor(Matrix<T> &val) {
         this->val = val;
+        zeroGrad();
     }
 
     /*
         Constructor to create Tensor from a value vector and shape vector.
-        The matrix lass takes as input these two parameters and this constructor provides
+        The matrix class takes as input these two parameters and this constructor provides
         an easy way to create tensors.
     */
     Tensor(vector<T> val, vector<int> shape) {
         this->val = Matrix<T>(val,shape);
+        zeroGrad();
     }
 
     /*
@@ -95,6 +112,7 @@ class Tensor {
     Tensor(Matrix<T> val, Operation<T>* op) {
         this->val = val;
         this->backOp = op;
+        zeroGrad();
     }
 
     /*
@@ -104,10 +122,12 @@ class Tensor {
         carrying the gradient w.r.t the tensor around with it. Backprop ends when we are at
         the first layer of our network, i.e when we have no more backward Operations to 
         traverse.
+
+        TODO: This is a DFS style backward Call. Write robust tests to validate backward call.
     */
     void backward(Matrix<T> grad) {
         assert(grad.shape == val.shape && "The gradient and the tensor shapes do not match !");
-        this->grad = grad;
+        this->grad = this->grad + grad;
         if(this->backOp != NULL) {
             this->backOp->backward(grad);
         }
@@ -186,6 +206,12 @@ class Tensor {
         // TODO: add assertions
         this->frontOp = new ExponentOperation<T>(this);
         return this->frontOp->forward();
+    }
+
+    // Destructor
+    ~Tensor() {
+        // delete backOp;
+        // delete frontOp;
     }
 
 };

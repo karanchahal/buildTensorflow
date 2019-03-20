@@ -88,6 +88,7 @@ API guide:
 
 */
 
+
 int main() {
     vector<int> a({1,2,3,4,5,6});
     vector<int> b({1,2,3});
@@ -102,12 +103,14 @@ int main() {
     auto m3 = m1.dot(m2);
     cout<<m3.val<<endl;
 
-    vector<int> vsl = {1,1};
-    auto grad = Matrix<int>(vsl,m3.val.shape);
-    m3.backward(grad);
+    // vector<int> vsl = {1,1};
+    // auto grad = Matrix<int>(vsl,m3.val.shape);
+    // m3.backward(grad);
 
     // oldSigmoidTest();
     // cout<<endl;
     // newSigmoidTest();
+
+   
 }
 

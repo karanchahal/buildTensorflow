@@ -1,10 +1,10 @@
-#include<iostream>
+#include <iostream>
 #include <chrono>
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
-#include<vector>
+#include <vector>
 
-auto cpuVectorAddition(std::vector<int> &A, std::vector<int> &B) {
+auto cpuVectorAddition(std::vector<int> A, std::vector<int> B) {
     auto start = std::chrono::high_resolution_clock::now();
     for(int i = 0;i< A.size();i++) {
         A[i] += B[i];
@@ -20,13 +20,16 @@ __global__ void add(int *a, int *b, int*c) {
 }
 
 // GPU vector Addition using Pointers
-auto gpuVectorAddition(std::vector<int> &A, std::vector<int> &B) {
+auto gpuVectorAddition(std::vector<int> A, std::vector<int> B) {
+     
     size_t n= A.size();
 
     int* h_A = A.data();
     int* h_B = B.data();
 
     int *d_a, *d_b, *d_c;
+    int* h_C = (int *)malloc(sizeof(int)*n);
+
     cudaMalloc((void**)&d_a, sizeof(int)*n);
     cudaMalloc((void**)&d_b, sizeof(int)*n);
     cudaMalloc((void**)&d_c, sizeof(int)*n);
@@ -42,31 +45,22 @@ auto gpuVectorAddition(std::vector<int> &A, std::vector<int> &B) {
     // Warmup
     add<<<n,1>>>(d_a, d_b, d_c);// num blocks, num_threads
     float total_time = 0;
+    int num_times = 10;
     // Get average of 100 runs
-    for(int i = 0;i<100;i++) {
+    for(int i = 0;i<num_times;i++) {
         cudaEventRecord(launch_begin,0);
         add<<<n,1>>>(d_a, d_b, d_c);
         cudaEventRecord(launch_end,0);
         cudaEventSynchronize(launch_end);
-
         float time = 0;
         cudaEventElapsedTime(&time, launch_begin, launch_end);
         total_time += time;
     }
 
-    total_time /= 100;
+    total_time /= num_times;
     std::cout <<"Speed of GPU vector Addition: " << total_time <<" micro seconds"<<std::endl; 
-
     // Copy memory back and free stuff
-    cudaMemcpy((void *)h_A, d_c, sizeof(int)*n, cudaMemcpyDeviceToHost);
-
-    A.assign(h_A, h_A + n);
-    for(auto i: A) {
-        if(i != 0) {
-            std::cout<<i<< " False"<<std::endl;
-            break;
-        }
-    }
+    cudaMemcpy(h_C, (void **)d_c, sizeof(int)*n, cudaMemcpyDeviceToHost);
 
     cudaFree(d_a);
     cudaFree(d_b);
@@ -75,8 +69,8 @@ auto gpuVectorAddition(std::vector<int> &A, std::vector<int> &B) {
     return total_time;
 }
 
-void vectorAdditionTest() {
-    size_t n = 100000;
+void vectorAdditionSpeedTest() {
+    size_t n = 1000000;
     // std::cout<<n<<std::endl;
 
     std::vector<int> A(n,1);
@@ -84,19 +78,19 @@ void vectorAdditionTest() {
     auto timeCpu = cpuVectorAddition(A,B);
     auto timeGpu = gpuVectorAddition(A,B);
 
-    std::cout<<"Speedup over CPU is: "<< (float)timeCpu/timeGpu <<std::endl;
+    std::cout<<"Speedup over CPU for addition is: "<< (float)timeCpu/timeGpu <<std::endl;
 }
 
 // Observation for CPU vs GPU compute in vector addition, the answer why is as follows:
 
 // 1. CUDA has a start-up overhead. For "small" problems like this one, the startup overhead will outweigh any gains from using the GPU. 
 
-
-__global__ void mm(int* a, int* b, int* c, int width) {
+template<typename T>
+__global__ void mm(T* a, T* b, T* c, T width) {
 
     int x = blockIdx.x; // block id
     int y = threadIdx.x; // thread id
-    int temp = 0;
+    T temp = 0;
     for(int i = 0;i< width;i++) {
         temp += a[x*width + i]*b[i*width+ y];
     }
@@ -107,7 +101,7 @@ __global__ void mm(int* a, int* b, int* c, int width) {
 
 
 // GPU vector Addition using Pointers
-auto gpuMatrixMultiplication(std::vector<int> &A, std::vector<int> &B, int size, bool print) {
+auto gpuMatrixMultiplication(std::vector<int> A, std::vector<int> B, int size, bool print) {
     
     size_t n= A.size();
 
@@ -129,15 +123,14 @@ auto gpuMatrixMultiplication(std::vector<int> &A, std::vector<int> &B, int size,
     cudaEventCreate(&launch_end);
 
     // Warmup
-    
-    mm<<<size,size>>>(d_a, d_b, d_c,size);// num blocks, num_threads
+    mm<int><<<size,size>>>(d_a, d_b, d_c,size);// num blocks, num_threads
     float total_time = 0;
     int num_times = 10;
     if(!print){
         // Get average of 100 runs
         for(int i = 0;i<num_times;i++) {
             cudaEventRecord(launch_begin,0);
-            mm<<<size,size>>>(d_a, d_b, d_c, size);
+            mm<int><<<size,size>>>(d_a, d_b, d_c, size);
             cudaEventRecord(launch_end,0);
             cudaEventSynchronize(launch_end);
             float time = 0;
@@ -197,13 +190,13 @@ float mmCpu(std::vector<int> &a, std::vector<int> &b, int n,bool print) {
 }
 
 void matrixMultiplySpeedTest() {
-    int size = 1024;
+    int size = 100;
     std::vector<int> A(size*size);
     std::vector<int> B(size*size);
     auto gpuSpeed = gpuMatrixMultiplication(A,B,size,false);
     auto cpuSpeed = mmCpu(A,B,size,false);
 
-    std::cout<<"Speed of GPu over CPU is: "<< cpuSpeed/gpuSpeed<<std::endl;
+    std::cout<<"Speed of GPU over CPU is: "<< cpuSpeed/gpuSpeed<<std::endl;
 }
 
 
@@ -213,12 +206,12 @@ void matrixMultiplyCorrectness() {
     std::vector<int> B = {3,1,2,4,3,1,2,4,3,1,2,4,3,1,2,4};
     gpuMatrixMultiplication(A,B,size,true);
     mmCpu(A,B,size,true);
-
 }
-int main() {
 
-    matrixMultiplySpeedTest();
-    matrixMultiplyCorrectness();
-    return 1; 
-}
+// int main() {
+//     // vectorAdditionSpeedTest();
+//     matrixMultiplySpeedTest();
+//     matrixMultiplyCorrectness();
+//     return 1; 
+// }
 
