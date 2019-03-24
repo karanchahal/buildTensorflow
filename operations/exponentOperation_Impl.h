@@ -20,5 +20,11 @@ Tensor<T> ExponentOperation<T>::forward() {
     return *this->t3;
 }
 
+template <typename T>
+Tensor<T>* ExponentOperation<T>::forwardPointer() {
+    this->t3 = new Tensor<T>(this->t1->val.exp(), this);
+    return this->t3;
+}
+
 #endif
 

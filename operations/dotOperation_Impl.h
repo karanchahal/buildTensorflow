@@ -35,5 +35,13 @@ Tensor<T> DotOperation<T>::forward() {
     return *this->t3;
 }
 
+template <typename T>
+Tensor<T>* DotOperation<T>::forwardPointer() {
+    // TODO: Add comments
+    auto val3 = this->t1->val.dot(this->t2->val);
+    this->t3 = new Tensor<T>(val3,this);
+    return this->t3;
+}
+
 #endif
 

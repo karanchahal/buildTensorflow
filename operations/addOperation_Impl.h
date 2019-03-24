@@ -21,4 +21,10 @@ Tensor<T> AddOperation<T>::forward() {
     return *this->t3;
 }
 
+template <typename T>
+Tensor<T>* AddOperation<T>::forwardPointer() {
+    this->t3 = new Tensor<T>(this->t1->val + this->t2->val, this);
+    return this->t3;
+}
+
 #endif

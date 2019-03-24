@@ -21,6 +21,8 @@ class AddOperation : public Operation<T> {
 
     Tensor<T> forward();
 
+    Tensor<T>* forwardPointer();
+
 };
 
 #endif

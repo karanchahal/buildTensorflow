@@ -20,6 +20,8 @@ class ExponentOperation : public Operation<T> {
 
     Tensor<T> forward();
 
+    Tensor<T>* forwardPointer();
+
 };
 
 #endif

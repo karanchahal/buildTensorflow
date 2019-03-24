@@ -16,6 +16,8 @@ class DotOperation : public Operation<T> {
 
     Tensor<T> forward();
 
+    Tensor<T>* forwardPointer();
+
 };
 
 #endif

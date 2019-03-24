@@ -32,7 +32,11 @@ class Operation {
     }
 
     virtual void backward(Matrix<T> grad) = 0;
+    // TODO: Deprecated forward Prop
     virtual Tensor<T> forward() = 0;
+    // New API for forward Prop
+    virtual Tensor<T>* forwardPointer() = 0;
+    
 };
 
 #endif

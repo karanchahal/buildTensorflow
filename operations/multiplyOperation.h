@@ -19,6 +19,8 @@ class MultiplyOperation : public Operation<T> {
     void backward(Matrix<T> grad);
 
     Tensor<T> forward();
+
+    Tensor<T>* forwardPointer();
 };
 
 #endif

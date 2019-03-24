@@ -88,20 +88,47 @@ API guide:
 
 */
 
+void sigmoidPointerTest() {
+
+    Tensor<float>* w0 = new Tensor<float>({2},{1});
+    Tensor<float>* x0= new Tensor<float>({-1},{1});
+
+    Tensor<float>* w1= new Tensor<float>({-3},{1});
+    Tensor<float>* x1= new Tensor<float>({-2},{1});
+
+    Tensor<float>* w3= new Tensor<float>({-3},{1});
+    
+    auto a = tensorOps::multiply(w0,x0);
+    auto b = tensorOps::multiply(w1,x1);
+    auto c = tensorOps::add(a,b);
+    auto d = tensorOps::add(w3,c);
+
+    Tensor<float>* e = new Tensor<float>({-1}, {1});
+    auto f = tensorOps::multiply(d,e);
+
+    auto g = tensorOps::exp(f); // exponent
+
+    Tensor<float>* h = new Tensor<float>({1}, {1});
+    auto i = tensorOps::add(g,h);
+
+    Tensor<float>* j = new Tensor<float>({1}, {1});
+    auto k = tensorOps::divide(j,i);
+    
+    auto grad = Matrix<float>({1},{1});
+    k->backward(grad);
+
+
+    cout<<w0->grad<<endl;
+    cout<<x0->grad<<endl;
+
+    cout<<w1->grad<<endl;
+    cout<<x1->grad<<endl;
+
+    cout<<w3->grad<<endl;
+}
 
 int main() {
-    vector<int> a({1,2,3,4,5,6});
-    vector<int> b({1,2,3});
-    vector<int> shape1({2,3});
-    vector<int> shape2({3,1});
-    Tensor<int> m1(a,shape1);
-    Tensor<int> m2(b,shape2);
-    
-  
-    cout<<m1.val<<endl;
-    cout<<m2.val<<endl;
-    auto m3 = m1.dot(m2);
-    cout<<m3.val<<endl;
+    sigmoidPointerTest();
 
     // vector<int> vsl = {1,1};
     // auto grad = Matrix<int>(vsl,m3.val.shape);
