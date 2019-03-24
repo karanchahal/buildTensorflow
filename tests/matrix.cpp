@@ -1,6 +1,7 @@
-#include<iostream>
+#include <iostream>
 #include <gtest/gtest.h>
 #include "types/matrix.h"
+#include "tests/utils.h"
 
 using namespace std;
 
@@ -81,34 +82,6 @@ TEST( MATRIX_TESTS, MatrixOperationShapeValidation) {
     }, "Shapes aren't compatible for dot product !");
 }
 
-template<typename T>
-bool isMatrixEqual(Matrix<T> &lhs, Matrix<T> &rhs) {
-    int n = lhs.shape.size();
-    int m = rhs.shape.size();
-
-    if(n != m) {
-        return false;
-    }
-
-    for(int i = 0; i<n;i++) {
-        if(lhs.shape[i] != rhs.shape[i]) {
-            return false;
-        }
-    }
-
-    n = lhs.val.size();
-
-    for(int i = 0;i<n;i++) {
-        if(lhs.val[i] != rhs.val[i]) {
-            return false;
-        }
-    }
-
-
-
-    return true;
-}
-
 TEST( MATRIX_TESTS, MatrixOperationAdditionCheck) {
     
     vector<int> a({1,2,3});
@@ -120,7 +93,7 @@ TEST( MATRIX_TESTS, MatrixOperationAdditionCheck) {
     auto ans = m1+m2;
     Matrix<int> res({2,4,6},{1,3});
 
-    ASSERT_TRUE(isMatrixEqual<int>(ans,res));
+    ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
 
 }
 
@@ -135,7 +108,7 @@ TEST( MATRIX_TESTS, MatrixOperationMultiplicationCheck) {
     auto ans = m1*m2;
     Matrix<int> res({1,4,9},{1,3});
 
-    ASSERT_TRUE(isMatrixEqual<int>(ans,res));
+    ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
 }
 
 TEST( MATRIX_TESTS, MatrixOperationDivisionCheck) {
@@ -148,7 +121,7 @@ TEST( MATRIX_TESTS, MatrixOperationDivisionCheck) {
     auto ans = m1/m2;
     Matrix<int> res({9,2,1},{1,3});
 
-    ASSERT_TRUE(isMatrixEqual<int>(ans,res));
+    ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
 }
 
 TEST( MATRIX_TESTS, MatrixOperationPowerCheck) {
@@ -157,7 +130,7 @@ TEST( MATRIX_TESTS, MatrixOperationPowerCheck) {
     Matrix<int> m1(a,shape1);
     auto ans = m1^2;
     Matrix<int> res({1,4,9},{1,3});
-    ASSERT_TRUE(isMatrixEqual<int>(ans,res));
+    ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
 }
 
 TEST( MATRIX_TESTS, MatrixOperationExponentCheck) {
@@ -167,7 +140,7 @@ TEST( MATRIX_TESTS, MatrixOperationExponentCheck) {
     auto ans = m1.exp();
     Matrix<float> res({ (float)exp(1),  (float)exp(2),  (float)exp(3)},{1,3});
 
-    ASSERT_TRUE(isMatrixEqual<float>(ans,res));
+    ASSERT_TRUE(testUtils::isMatrixEqual<float>(ans,res));
 }
 
 TEST( MATRIX_TESTS, MatrixOperationDotProductCheck) {
@@ -180,7 +153,7 @@ TEST( MATRIX_TESTS, MatrixOperationDotProductCheck) {
     auto ans = m1.dot(m2);
     Matrix<int> res({14,14},{2,1,1});
 
-    ASSERT_TRUE(isMatrixEqual(ans,res));
+    ASSERT_TRUE(testUtils::isMatrixEqual(ans,res));
 }
 
 int main(int argc, char **argv) {
