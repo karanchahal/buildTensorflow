@@ -341,7 +341,8 @@ Matrix<E> operator / (const E e, const Matrix<E> &rhs) {
     return Matrix<E>(res, resShape);
 }
 
-
+// TODO need to refactor this to different files and 
+// figure out a way to link it for the GPU build 
 template<typename T>
 __global__ void mm(T* a, T* b, T* c, T width, T second) {
 
