@@ -133,6 +133,17 @@ class Tensor {
         }
     }
 
+    void backward() {
+        // Make gradient of all 1's
+        vector<T> v(val.val.size(),1);
+        auto grad = Matrix<T>(v, val.shape);
+        
+        this->grad = this->grad + grad;
+        if(this->backOp != NULL) {
+            this->backOp->backward(grad);
+        }
+    }
+
     /*
         From here on, we overload the operators like +, / and * to define what happens when
         we we add, divide and multiply tensors. We also support other operations like dot 

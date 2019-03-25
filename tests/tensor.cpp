@@ -183,7 +183,47 @@ TEST( TENSOR_TESTS, ComputationGraph) {
     TODO
 */
 TEST(TENSOR_TESTS, BackwardPropogation) {
+    Tensor<float>* w0 = new Tensor<float>({2},{1});
+    Tensor<float>* x0= new Tensor<float>({-1},{1});
 
+    Tensor<float>* w1= new Tensor<float>({-3},{1});
+    Tensor<float>* x1= new Tensor<float>({-2},{1});
+
+    Tensor<float>* w3= new Tensor<float>({-3},{1});
+    
+    auto a = tensorOps::multiply(w0,x0);
+    auto b = tensorOps::multiply(w1,x1);
+    auto c = tensorOps::add(a,b);
+    auto d = tensorOps::add(w3,c);
+
+    Tensor<float>* e = new Tensor<float>({-1}, {1});
+    auto f = tensorOps::multiply(d,e);
+
+    auto g = tensorOps::exp(f); // exponent
+
+    Tensor<float>* h = new Tensor<float>({1}, {1});
+    auto i = tensorOps::add(g,h);
+
+    Tensor<float>* j = new Tensor<float>({1}, {1});
+    auto k = tensorOps::divide(j,i);
+
+    k->backward();
+
+    // verify gradients
+    auto res =  Matrix<float>({-0.196611971},{1});
+    ASSERT_TRUE(testUtils::isMatrixEqual(w0->grad,res));
+
+    res =  Matrix<float>({0.393223941},{1});
+    ASSERT_TRUE(testUtils::isMatrixEqual(x0->grad,res));
+
+    res =  Matrix<float>({-0.393223941},{1});
+    ASSERT_TRUE(testUtils::isMatrixEqual(w1->grad,res));
+
+    res =  Matrix<float>({-0.589835882},{1});
+    ASSERT_TRUE(testUtils::isMatrixEqual(x1->grad,res));
+
+    res =  Matrix<float>({0.196611971},{1});
+    ASSERT_TRUE(testUtils::isMatrixEqual(w3->grad,res));
 }
 
 int main(int argc, char **argv) {
