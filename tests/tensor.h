@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 TEST( TENSOR_TESTS, TensorCreation) {
     // Checks shape validation of Matrix
     ASSERT_DEATH({
@@ -225,10 +224,3 @@ TEST(TENSOR_TESTS, BackwardPropogation) {
     res =  Matrix<float>({0.196611971},{1});
     ASSERT_TRUE(testUtils::isMatrixEqual(w3->grad,res));
 }
-
-int main(int argc, char **argv) {
-    testing::InitGoogleTest(&argc, argv);
-
-    return RUN_ALL_TESTS();
-}
-
