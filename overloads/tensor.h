@@ -40,4 +40,10 @@ namespace tensorOps {
         return one->frontOp->forwardPointer();
     }
 
+    template<typename T>
+    Tensor<T>* sigmoid(Tensor<T>* one) {
+        one->frontOp = new SigmoidOperation<T>(one);
+        return one->frontOp->forwardPointer();
+    }
+
 }
