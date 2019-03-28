@@ -103,9 +103,9 @@ int main() {
     auto m3 = m1.dot(m2);
     cout<<m3.val<<endl;
 
-    // vector<int> vsl = {1,1};
-    // auto grad = Matrix<int>(vsl,m3.val.shape);
-    // m3.backward(grad);
+    vector<int> vsl = {1,1};
+    auto grad = Matrix<int>(vsl,m3.val.shape);
+    m3.backward(grad);
 
     // oldSigmoidTest();
     // cout<<endl;

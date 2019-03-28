@@ -190,7 +190,7 @@ float mmCpu(std::vector<int> &a, std::vector<int> &b, int n,bool print) {
 }
 
 void matrixMultiplySpeedTest() {
-    int size = 100;
+    int size = 1024;
     std::vector<int> A(size*size);
     std::vector<int> B(size*size);
     auto gpuSpeed = gpuMatrixMultiplication(A,B,size,false);
@@ -208,10 +208,10 @@ void matrixMultiplyCorrectness() {
     mmCpu(A,B,size,true);
 }
 
-// int main() {
-//     // vectorAdditionSpeedTest();
-//     matrixMultiplySpeedTest();
-//     matrixMultiplyCorrectness();
-//     return 1; 
-// }
+int main() {
+    // vectorAdditionSpeedTest();
+    matrixMultiplySpeedTest();
+    matrixMultiplyCorrectness();
+    return 1; 
+}
 

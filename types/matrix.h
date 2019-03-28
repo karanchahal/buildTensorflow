@@ -28,7 +28,7 @@ struct Matrix{
     vector<int> elemsEncounteredPerDim;
 
     // Check whether GPU is accessible or not
-    bool gpu = true;
+    bool gpu = false;
 
     // Verifies that the shape provided and val vector provided are compatible in size
     bool verifyShape(const vector<T> &val, const vector<int> &shape) {
@@ -382,10 +382,10 @@ void dotGPU(vector<T> &res, const Matrix<T> *lhs, const Matrix<T> &rhs, int star
     cudaMemcpy((void *)d_a, h_A + start, sizeof(T)*row1*col1, cudaMemcpyHostToDevice);
     cudaMemcpy((void *)d_b, h_B, sizeof(T)*row2*col2, cudaMemcpyHostToDevice);
 
-    mm<T><<<row1,col2>>>(d_a,d_b,d_c,col1,col2);
+    mm<T><<<row1,col2>>>(d_a,d_b,d_c,col1,col2); // non blocking function
 
     // Copy back from cuda memory
-    cudaMemcpy(h_C+startRes, (void **)d_c, sizeof(T)*row1*col2, cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_C+startRes, (void **)d_c, sizeof(T)*row1*col2, cudaMemcpyDeviceToHost); // waits for kernel to get over
 
     // Clean Up 
     cudaFree(d_a);

@@ -10,6 +10,13 @@ the dot operation.
 #define __OP_DOT_IMPL_INCLUDED__  
 
 // TODO: Add comments
+// Example
+// x = [2,3]
+// y = [3,4]
+// res = [2, 4]
+// grad = [2,4]
+// dx = grad*y.T = [2 3]
+// dy = x.T*grad = [3 4]
 template <typename T>
 void DotOperation<T>::backward(Matrix<T> grad) {
     // TODO: Cleanup code for this
