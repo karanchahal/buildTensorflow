@@ -10,6 +10,7 @@ This file includes all the operator implementations
 #include "operations/divideOperation_Impl.h"
 #include "operations/dotOperation_Impl.h"
 #include "operations/exponentOperation_Impl.h"
+#include "operations/sigmoidOperation_Impl.h"
 
 #endif
 

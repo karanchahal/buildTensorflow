@@ -1,9 +1,9 @@
-// TODO: 
-// 1. Init dense layer
-// Basically a weight matrix,
-// Feed in input, get output
-// Write back 
-#include "buildTensorflow.h"
+#include "overloads/tensor.h"
+#include <random>
+#include <string>
+
+#ifndef __DENSE_LAYER_INCLUDED__   
+#define __DENSE_LAYER_INCLUDED__  
 
 template<typename T>
 class Dense{
@@ -16,17 +16,19 @@ class Dense{
         Paper Link: http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf
     
         TODO: Use a Uniform or a normal distribution ?
+        Currently using a uniform distribution
     */
     vector<T> initWeights(int fan_in, int fan_out) {
         double variance = 2.0/(fan_in + fan_out);
         auto stddev = sqrt(variance);
 
-        default_random_engine generator;
-        normal_distribution<T> distribution(0.0,stddev);
+        std::default_random_engine generator;
+        std::uniform_real_distribution<T> distribution(0.0,stddev);
 
-        vector<T> weights(0,fan_in*fan_out);
+        vector<T> weights(fan_in*fan_out,0);
         for(int i = 0;i <fan_in*fan_out;i++) {
-            weights[i] = distribution(generator);
+            T sample = distribution(generator);
+            weights[i] = sample;
         }
 
         return weights;
@@ -37,20 +39,28 @@ class Dense{
     Tensor<T>* biases;
     int input_size;
     int output_size;
+    string act;
 
-    Dense(int input_size, int output_size) {
+    Dense(int input_size, int output_size, string activation) {
         this->input_size = input_size;
         this->output_size = output_size;
 
         auto weightVal = initWeights(input_size, output_size);
         this->weights = new Tensor<T>(weightVal,{input_size, output_size});
-        this->biases = new Tensor<T>(vector<T>(output_size,0), {output_size});
+        this->biases = new Tensor<T>(vector<T>(output_size,0), {1, output_size});
+
+        this->act = activation;
     }
 
     Tensor<T>* forward(Tensor<T> *x) {
         auto dot = tensorOps::dot(x,weights);
-        auto logits = tensorOps::sigmoid(dot);
+        Tensor<T>* logits;
+        if(act == "sigmoid") {
+            logits = tensorOps::sigmoid(dot);
+        }
         auto z = tensorOps::add(logits, biases);
         return z;
     }
-}
+};
+
+#endif

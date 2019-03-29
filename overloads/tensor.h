@@ -3,6 +3,9 @@
 */
 #include <types/tensor.h>
 
+#ifndef __TENSOR_OPS_INCLUDED__   
+#define __TENSOR_OPS_INCLUDED__  
+
 namespace tensorOps {
 
     template<typename T>
@@ -13,6 +16,12 @@ namespace tensorOps {
     }
 
     template<typename T>
+    Tensor<T>* add(T v, Tensor<T>* two) {
+        auto one = new Tensor<T>(vector<T>(two->val.val.size(),v),two->val.shape);
+        return add(one,two);
+    }
+
+    template<typename T>
     Tensor<T>* divide(Tensor<T>* one, Tensor<T>* two) {
         one->frontOp = new DivideOperation<T>(one, two);
         two->frontOp = one->frontOp;
@@ -20,10 +29,22 @@ namespace tensorOps {
     }
 
     template<typename T>
+    Tensor<T>* divide(T v, Tensor<T>* two) {
+        auto one = new Tensor<T>(vector<T>(two->val.val.size(),v),two->val.shape);
+        return divide(one,two);
+    }
+
+    template<typename T>
     Tensor<T>* multiply(Tensor<T>* one, Tensor<T>* two) {
         one->frontOp = new MultiplyOperation<T>(one, two);
         two->frontOp = one->frontOp;
         return one->frontOp->forwardPointer();
+    }
+
+    template<typename T>
+    Tensor<T>* multiply(T v, Tensor<T>* two) {
+        auto one = new Tensor<T>(vector<T>(two->val.val.size(),v),two->val.shape);
+        return multiply(one,two);
     }
 
     template<typename T>
@@ -46,4 +67,6 @@ namespace tensorOps {
         return one->frontOp->forwardPointer();
     }
 
-}
+};
+
+#endif

@@ -128,16 +128,11 @@ void sigmoidPointerTest() {
 }
 
 int main() {
-    sigmoidPointerTest();
-
-    // vector<int> vsl = {1,1};
-    // auto grad = Matrix<int>(vsl,m3.val.shape);
-    // m3.backward(grad);
-
-    // oldSigmoidTest();
-    // cout<<endl;
-    // newSigmoidTest();
-
-   
+    // sigmoidPointerTest();
+    Dense<float> fc1(2,5,"sigmoid");
+    Tensor<float>* x = new Tensor<float>({1,2},{1,2});
+    auto m = fc1.forward(x);
+    m->backward();
+    cout<<"Hey"<<endl;
 }
 

@@ -12,19 +12,29 @@ template <typename T>
 void SigmoidOperation<T>::backward(Matrix<T> grad) {
     // Switching case: where gradients are multiplied with the opposite tensor
     // TODO refactor matrix overloads and add scalar/matrix operations
-    auto g = (1 - t3->val)*t3->val;
+    auto one = Matrix<T>(vector<T>(this->t3->val.val.size(),1),this->t3->val.shape);
+    auto minusone = Matrix<T>(vector<T>(this->t3->val.val.size(),-1),this->t3->val.shape);
+    
+    auto g = (one + minusone*this->t3->val)*this->t3->val; // matrix can be overloaded
     this->t1->backward(grad*g);
 }
 
 template <typename T>
 Tensor<T> SigmoidOperation<T>::forward() {
-   // TODO
+   // Not implemented as yet
+   return NULL;
 }
 
 template <typename T>
 Tensor<T>* SigmoidOperation<T>::forwardPointer() {
     // TODO
     // Make function that does this for matrices using overloads
+    auto d = tensorOps::multiply((T)-1,this->t1);
+    auto e = tensorOps::exp(d);
+    auto f = tensorOps::add((T)1,e);
+    auto g = tensorOps::divide((T)1,f);
+
+    return g;
 }
 
 #endif

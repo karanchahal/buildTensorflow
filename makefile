@@ -2,7 +2,7 @@ all: main.cpp
 	g++ -std=c++11 -I . main.cpp -o build/main.o
 	./build/main.o
 debug: main.cpp
-	g++ -g -std=c++11 -I . main.cpp -o build/main.o
+	g++ -g -std=c++14 -I . main.cpp -o build/main.o
 	./build/main.o
 test: tests/main.cpp
 	g++ -std=c++11 -I . tests/main.cpp -lgtest -lgtest_main -pthread -o build/test.o
