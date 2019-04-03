@@ -1,3 +1,5 @@
+#include "types/tensor.h" 
+#include "operations/operations_Impl.h"
 #include "overloads/tensor.h"
 #include <random>
 #include <string>
@@ -60,6 +62,10 @@ class Dense{
         }
         auto z = tensorOps::add(logits, biases);
         return z;
+    }
+
+    void updateGradients() {
+        // just update gradients of weights
     }
 };
 
