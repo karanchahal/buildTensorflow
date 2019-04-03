@@ -11,6 +11,7 @@ This file includes all the operator implementations
 #include "operations/dotOperation_Impl.h"
 #include "operations/exponentOperation_Impl.h"
 #include "operations/sigmoidOperation_Impl.h"
+#include "operations/reluOperation_Impl.h"
 
 #endif
 

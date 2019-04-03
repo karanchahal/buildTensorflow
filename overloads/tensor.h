@@ -67,6 +67,12 @@ namespace tensorOps {
         return one->frontOp->forwardPointer();
     }
 
+    template<typename T>
+    Tensor<T>* relu(Tensor<T>* one) {
+        one->frontOp = new ReluOperation<T>(one);
+        return one->frontOp->forwardPointer();
+    }
+
 };
 
 #endif

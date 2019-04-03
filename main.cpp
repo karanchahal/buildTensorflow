@@ -129,10 +129,12 @@ void sigmoidPointerTest() {
 
 int main() {
     // sigmoidPointerTest();
-    Dense<float> fc1(2,5,"sigmoid");
-    Tensor<float>* x = new Tensor<float>({1,2},{1,2});
-    auto m = fc1.forward(x);
-    m->backward();
-    cout<<"Hey"<<endl;
+    // Dense<float> fc1(2,5,"sigmoid");
+    // Tensor<float>* x = new Tensor<float>({1,2},{1,2});
+    // auto m = fc1.forward(x);
+    // m->backward();
+
+    vector<int> a(10,5);
+    cout<<a[a>2]<<endl;
 }
 
