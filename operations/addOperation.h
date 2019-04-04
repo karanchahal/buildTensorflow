@@ -3,7 +3,7 @@ This file defines the AddOperation class which represents the addition of
 two tensors.
 */
 
-#include "operation.h"
+#include "operations/operation.h"
 
 #ifndef __OP_ADD_INCLUDED__   
 #define __OP_ADD_INCLUDED__   

@@ -3,7 +3,7 @@
     multiplication of two tensors.
 */
 
-#include "operation.h"
+#include "operations/operation.h"
 
 #ifndef __OP_MULTIPLY_INCLUDED__
 #define __OP_MULTIPLY_INCLUDED__

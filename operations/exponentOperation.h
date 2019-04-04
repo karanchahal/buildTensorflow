@@ -3,7 +3,7 @@ This file defines the ExponentOperation class which represents the
 exponentiation of a tensor.
 */
 
-#include "operation.h"
+#include "operations/operation.h"
 
 #ifndef __OP_EXP_INCLUDED__   
 #define __OP_EXP_INCLUDED__   

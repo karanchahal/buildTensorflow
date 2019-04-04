@@ -1,4 +1,4 @@
-#include "operation.h"
+#include "operations/operation.h"
 
 #ifndef __OP_DOT_INCLUDED__  
 #define __OP_DOT_INCLUDED__  

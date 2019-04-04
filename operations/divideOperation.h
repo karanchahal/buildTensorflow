@@ -3,7 +3,7 @@ This file defines the DivideOperation class which represents the division of
 two tensors.
 */
 
-#include "operation.h"
+#include "operations/operation.h"
 
 #ifndef __OP_DIV_INCLUDED__   
 #define __OP_DIV_INCLUDED__   

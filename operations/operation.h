@@ -6,8 +6,8 @@ performed on one or more tensors.
 #ifndef __OP_H_INCLUDED__   
 #define __OP_H_INCLUDED__   
 
-#include "common.h"
-#include "matrix.h"
+#include "utils/common.h"
+#include "types/matrix.h"
 
 //Forward Declaration
 template<typename T>
@@ -17,6 +17,7 @@ template<typename T>
 class Operation {
     public:
     Tensor<T> *t1 = NULL, *t2 = NULL; // generally an operation had two operands
+    Tensor<T> *t3 = NULL; // Output tensor
     
     Operation() {
 
