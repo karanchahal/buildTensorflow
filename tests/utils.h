@@ -1,3 +1,6 @@
+/*
+    This file contains some utils used by tests.
+*/
 #include "types/matrix.h"
 
 #ifndef __TESTS_UTILS_INCLUDED__   
@@ -5,6 +8,9 @@
 
 namespace testUtils{
 
+    /*
+        This function tests whether two matrices have equal values.
+    */
     template<typename T>
     bool isMatrixEqual(Matrix<T> &lhs, Matrix<T> &rhs) {
         int n = lhs.shape.size();

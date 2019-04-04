@@ -1,6 +1,6 @@
 /*
-This file defines the Operation base class which represents an operation
-performed on one or more tensors.
+    This file defines the Operation base class which represents an operation
+    performed on one or more tensors.
 */
 
 #ifndef __OP_H_INCLUDED__   
@@ -8,6 +8,7 @@ performed on one or more tensors.
 
 #include "utils/common.h"
 #include "types/matrix.h"
+#include "overloads/matrix.h"
 
 //Forward Declaration
 template<typename T>
@@ -22,6 +23,7 @@ class Operation {
     Operation() {
 
     }
+
     Operation(Tensor<T> *t1) {
         this->t1 = t1;
     }
@@ -32,8 +34,10 @@ class Operation {
     }
 
     virtual void backward(Matrix<T> grad) = 0;
+
     // TODO: Deprecated forward Prop
     virtual Tensor<T> forward() = 0;
+    
     // New API for forward Prop
     virtual Tensor<T>* forwardPointer() = 0;
     

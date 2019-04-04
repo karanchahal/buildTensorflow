@@ -58,7 +58,6 @@ void newSigmoidTest() {
     auto grad = Matrix<float>(vsl,sh);
     k.backward(grad);
 
-
     cout<<w0.grad<<endl;
     cout<<x0.grad<<endl;
 
@@ -127,12 +126,37 @@ void sigmoidPointerTest() {
     cout<<w3->grad<<endl;
 }
 
+void updatedSigmoidtest() {
+    Tensor<float>* w0 = new Tensor<float>({2},{1});
+    Tensor<float>* x0= new Tensor<float>({-1},{1});
+
+    Tensor<float>* w1= new Tensor<float>({-3},{1});
+    Tensor<float>* x1= new Tensor<float>({-2},{1});
+
+    Tensor<float>* w3= new Tensor<float>({-3},{1});
+    
+    auto a = tensorOps::multiply(w0,x0);
+    auto b = tensorOps::multiply(w1,x1);
+    auto c = tensorOps::add(a,b);
+    auto d = tensorOps::add(w3,c);
+
+    auto k = tensorOps::sigmoid(d);
+    k->backward();
+
+    cout<<w0->grad<<endl;
+    cout<<x0->grad<<endl;
+
+    cout<<w1->grad<<endl;
+    cout<<x1->grad<<endl;
+
+    cout<<w3->grad<<endl;
+
+}
+
 int main() {
-    // sigmoidPointerTest();
-    Dense<float> fc1(2,5,"sigmoid");
+    Dense<float> fc1(2,5);
     Tensor<float>* x = new Tensor<float>({1,2},{1,2});
     auto m = fc1.forward(x);
     m->backward();
-    cout<<"Hey"<<endl;
 }
 

@@ -1,3 +1,8 @@
+/*
+    This file defines the DotOperation class which represents the dot product of
+    two tensors.
+*/
+
 #include "operations/operation.h"
 
 #ifndef __OP_DOT_INCLUDED__  

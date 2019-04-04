@@ -1,3 +1,15 @@
+/*
+    Vector Overloading. This file over loads several operator for vector like elementwise
+
+    1. Addition
+    2. Multiplication
+    3. Division
+    4. Exponent
+    5. Power
+
+    with scalars as well as vectors (scalar vector combo)
+*/
+
 #include "utils/common.h"
 #include <cmath>
 
@@ -16,6 +28,17 @@ vector<T> operator * (vector<T> &a, const vector<T> &b) {
     return arr;
 }
 
+// Scalar Multiplication
+template<typename T>
+vector<T> operator * (T a, const vector<T> &b) {
+    vector<T> arr;
+    for(int i = 0;i<b.size();i++) {
+        T prod = a*b[i];
+        arr.push_back(prod);
+    }
+    return arr;
+}
+
 // Addition
 template<typename T>
 vector<T> operator + (vector<T> &a, const vector<T> &b) {
@@ -23,6 +46,17 @@ vector<T> operator + (vector<T> &a, const vector<T> &b) {
     vector<T> arr;
     for(int i = 0;i<a.size();i++) {
         T prod = a[i]+b[i];
+        arr.push_back(prod);
+    }
+    return arr;
+}
+
+// Scalar Addition
+template<typename T>
+vector<T> operator + (T a, const vector<T> &b) {
+    vector<T> arr;
+    for(int i = 0;i<b.size();i++) {
+        T prod = a+b[i];
         arr.push_back(prod);
     }
     return arr;

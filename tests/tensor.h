@@ -1,9 +1,16 @@
+/*
+    This file tests the tensor layer.
+*/
+
 #include "buildTensorflow.h"
 #include <gtest/gtest.h>
 #include "tests/utils.h"
 
 using namespace std;
 
+/*
+    This test checks the functionality to create a tensor.
+*/
 TEST( TENSOR_TESTS, TensorCreation) {
     // Checks shape validation of Matrix
     ASSERT_DEATH({
@@ -22,9 +29,11 @@ TEST( TENSOR_TESTS, TensorCreation) {
     m1 = Matrix<int>(a,shape3);
 }
 
-// Tests that Tensor Operations yields the right result.
-// A little redundant because Matrix Test validate results
-// but good to have these tests in case of refactor
+/*
+    Tests that Tensor Operations yields the right result.
+    A little redundant because Matrix Test validate results
+    but good to have these tests in case of refactor
+*/
 TEST( TENSOR_TESTS, TensorAddOperations) {
     
     Tensor<int>* one = new Tensor<int>({1,2,3,4,5},{5});
@@ -34,6 +43,7 @@ TEST( TENSOR_TESTS, TensorAddOperations) {
 
     ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res));
 }
+
 
 TEST( TENSOR_TESTS, TensorMultiplyOperations) {
     
@@ -53,6 +63,33 @@ TEST( TENSOR_TESTS, TensorDivideOperations) {
     Matrix<int> res({5,2,5,2,1},{5});
 
     ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res));
+}
+
+/*
+    This test checks the functionality of the sigmoid operation.
+    Both front Prop and back Prop
+
+    TODO: There is a small difference in the computation of the gradients 
+    of the sigmoid operation with the formula sigmoid(1- sigmoid) and
+    when it is done manually using the chain rule. Not yet known why this is.
+
+    The difference is slight:
+
+    With formula: 0.196611926
+    Without formula: 0.196611971
+*/
+TEST( TENSOR_TESTS, TensorSigmoidOperations) {
+    
+    Tensor<float>* one = new Tensor<float>({1},{1});
+    auto ans = tensorOps::sigmoid(one);
+    Matrix<float> res({0.731058578}, {1});
+
+    ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res)); // check front Propogation
+
+    ans->backward();
+
+    Matrix<float> resGrad({0.196611926}, {1});
+    ASSERT_TRUE(testUtils::isMatrixEqual(one->grad,resGrad)); // check back Propogation
 }
 
 /*
@@ -179,7 +216,6 @@ TEST( TENSOR_TESTS, ComputationGraph) {
 /*
     Tests that the gradient values are valid after doing 
     backpropation.
-    TODO
 */
 TEST(TENSOR_TESTS, BackwardPropogation) {
     Tensor<float>* w0 = new Tensor<float>({2},{1});
@@ -205,7 +241,6 @@ TEST(TENSOR_TESTS, BackwardPropogation) {
 
     Tensor<float>* j = new Tensor<float>({1}, {1});
     auto k = tensorOps::divide(j,i);
-
     k->backward();
 
     // verify gradients

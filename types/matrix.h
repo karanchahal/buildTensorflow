@@ -3,8 +3,7 @@
     It supports various arithmetic and matrix operations.
 */
 #include "utils/common.h"
-#include "overloads/overloads.h"
-
+#include "overloads/vector.h"
 
 #ifndef __MATRIX_FLOAT_INCLUDED__   
 #define __MATRIX_FLOAT_INCLUDED__  
@@ -246,15 +245,6 @@ struct Matrix{
         return Matrix(res, resShape);
     }
 
-    // Performs elementwise multiplication
-    Matrix<T> operator * (const Matrix<T> &rhs) {
-        assert("Shapes aren't compatible for multiplication !" &&
-         verifyShapeForElementwiseOperation(this->shape, rhs.shape));
-
-        auto res = this->val * rhs.val;
-        auto resShape = this->shape;
-        return Matrix(res, resShape);
-    }
 
     // Performs elementwise division
     Matrix<T> operator / (const Matrix<T> &rhs) {
@@ -305,7 +295,16 @@ struct Matrix{
 
         return Matrix(res, resShape);
     }
+   
+    // Performs elementwise multiplication
+    Matrix<T> operator * (const Matrix<T> &rhs) {
+        assert("Shapes aren't compatible for multiplication !" &&
+         verifyShapeForElementwiseOperation(this->shape, rhs.shape));
 
+        auto res = this->val * rhs.val;
+        auto resShape = this->shape;
+        return Matrix(res, resShape);
+    }
 
     // Delete matrix
     ~Matrix() {
@@ -313,20 +312,6 @@ struct Matrix{
     }
 };
 
-// Overloaded function for cout<<matrix<<endl;
-template<typename T>
-ostream & operator << (ostream &out, Matrix<T> &m) {
-    vector<int> stack;
-    return m.print(out,stack,0);
-}
-
-// Divison with a scalar as divident
-template<typename E>
-Matrix<E> operator / (const E e, const Matrix<E> &rhs) {
-    auto res =  e/rhs.val;
-    auto resShape = rhs.shape;
-    return Matrix<E>(res, resShape);
-}
 
 #endif
 

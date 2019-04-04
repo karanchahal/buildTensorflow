@@ -1,6 +1,6 @@
 /*
-This file defines the DivideOperation class which represents the division of
-two tensors.
+    This file defines the DivideOperation class which represents the division of
+    two tensors.
 */
 
 #include "operations/operation.h"

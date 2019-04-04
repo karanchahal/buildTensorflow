@@ -1,11 +1,18 @@
+/*
+    This file tests the matrix layer.
+*/
+
 #include <iostream>
 #include <gtest/gtest.h>
 #include "types/matrix.h"
+#include "overloads/matrix.h"
 #include "tests/utils.h"
 
 using namespace std;
 
-
+/*
+    This test tests the validity of matrix creation
+*/
 TEST( MATRIX_TESTS, MatrixCreationShapeValidation) {
     // Checks shape validation of Matrix
     ASSERT_DEATH({
@@ -24,6 +31,9 @@ TEST( MATRIX_TESTS, MatrixCreationShapeValidation) {
     m1 = Matrix<int>(a,shape3);
 }
 
+/*
+    This test tests the shape validation function of the matrix
+*/
 TEST( MATRIX_TESTS, MatrixOperationShapeValidation) {
     // Checks for matrix addition
     ASSERT_DEATH({
@@ -82,6 +92,9 @@ TEST( MATRIX_TESTS, MatrixOperationShapeValidation) {
     }, "Shapes aren't compatible for dot product !");
 }
 
+/*
+    This test tests the accuracy of the addition operation between 2 matrices
+*/
 TEST( MATRIX_TESTS, MatrixOperationAdditionCheck) {
     
     vector<int> a({1,2,3});
@@ -97,6 +110,9 @@ TEST( MATRIX_TESTS, MatrixOperationAdditionCheck) {
 
 }
 
+/*
+    This test tests the accuracy of the multiplication operation between 2 matrices
+*/
 TEST( MATRIX_TESTS, MatrixOperationMultiplicationCheck) {
 
     vector<int> a({1,2,3});
@@ -111,6 +127,9 @@ TEST( MATRIX_TESTS, MatrixOperationMultiplicationCheck) {
     ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
 }
 
+/*
+    This test tests the accuracy of the division operation between 2 matrices
+*/
 TEST( MATRIX_TESTS, MatrixOperationDivisionCheck) {
     vector<int> a({9,4,3});
     vector<int> shape1({1,3});
@@ -124,6 +143,9 @@ TEST( MATRIX_TESTS, MatrixOperationDivisionCheck) {
     ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
 }
 
+/*
+    This test tests the accuracy of the power operation between matrice and scalar
+*/
 TEST( MATRIX_TESTS, MatrixOperationPowerCheck) {
     vector<int> a({1,2,3});
     vector<int> shape1({1,3});
@@ -133,6 +155,9 @@ TEST( MATRIX_TESTS, MatrixOperationPowerCheck) {
     ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
 }
 
+/*
+    This test tests the accuracy of the exponent operation.
+*/
 TEST( MATRIX_TESTS, MatrixOperationExponentCheck) {
     vector<float> a({1,2,3});
     vector<int> shape1({1,3});
@@ -143,6 +168,9 @@ TEST( MATRIX_TESTS, MatrixOperationExponentCheck) {
     ASSERT_TRUE(testUtils::isMatrixEqual<float>(ans,res));
 }
 
+/*
+    This test tests the accuracy of the dot product operation between 2 matrices
+*/
 TEST( MATRIX_TESTS, MatrixOperationDotProductCheck) {
     vector<int> a({1,2,3,1,2,3});
     vector<int> shape1({2,1,3});
@@ -154,4 +182,24 @@ TEST( MATRIX_TESTS, MatrixOperationDotProductCheck) {
     Matrix<int> res({14,14},{2,1,1});
 
     ASSERT_TRUE(testUtils::isMatrixEqual(ans,res));
+}
+
+/*
+    This test tests the accuracy of the sigmoid operation.
+*/
+TEST( MATRIX_TESTS, MatrixOperationSigmoidCheck) {
+
+    Matrix<float> w0({2},{1});
+    Matrix<float> x0({-1},{1});
+
+    Matrix<float> w1({-3},{1});
+    Matrix<float> x1({-2},{1});
+
+    Matrix<float> w3({-3},{1});
+    Matrix<float> w4({1},{1});
+    auto x = w0*x0 + w1*x1 + w3;
+    auto y = matrixOps::sigmoid(x);
+    Matrix<float> res({0.731058578}, {1});
+    
+    ASSERT_TRUE(testUtils::isMatrixEqual(y,res));
 }

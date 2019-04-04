@@ -1,7 +1,18 @@
+/* 
+    Utils for matrices. Functions like transpose and for future util matrix functions.
+*/
+
 #include "types/matrix.h"
 
-namespace utils {
+#ifndef __UTILS_MATRIX_INCLUDED__   
+#define __UTILS_MATRIX_INCLUDED__  
 
+namespace utils {
+    
+    /* 
+        Function to convert a Matrix to a transpose of it. 
+        Just changes the shape vector of a matrix and return new matrix.
+    */
     template< typename T>
     Matrix<T> transpose(const Matrix<T> &m, vector<int> transposeIndices) {
         assert(transposeIndices.size() == m.shape.size() && 
@@ -14,3 +25,5 @@ namespace utils {
         return Matrix<T>(m.val,shape);
     }
 }
+
+#endif
