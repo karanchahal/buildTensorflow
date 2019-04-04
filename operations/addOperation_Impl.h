@@ -34,7 +34,7 @@ Tensor<T> AddOperation<T>::forward() {
 }
 
 /* 
-    Forward Propogation of the addition operation. Return pointer to the tensor.
+    Forward Propogation of the operation. Return pointer to the tensor.
 */
 template <typename T>
 Tensor<T>* AddOperation<T>::forwardPointer() {
