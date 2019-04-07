@@ -1,6 +1,6 @@
 /*
-This file defines the DivideOperation class which represents the division of
-two tensors.
+    This file defines the DivideOperation class which represents the division of
+    two tensors.
 */
 
 #include "operations/operation.h"
@@ -11,17 +11,17 @@ two tensors.
 template <typename T>
 class DivideOperation : public Operation<T> {
     public:
-    Tensor<T> *t1 = NULL, *t2 = NULL; // Input tensors
-    Tensor<T> *t3 = NULL; // Output tensor
     
-    DivideOperation(Tensor<T> *t1, Tensor<T> *t2) : Operation<T>(t1,t2) {
+    DivideOperation(Tensor<T> *t1, Tensor<T> *t2) {
         this->t1 = t1;
         this->t2 = t2;
     }
 
     void backward(Matrix<T> grad);
 
-    Tensor<T> forward();
+    Tensor<T> forwardDeprecated();
+
+    Tensor<T>* forward();
 
 };
 

@@ -1,5 +1,5 @@
 /*
-This file includes all the operator implementations
+    This file includes all the operator implementations
 */
 
 #ifndef __OP_IMPL_INCLUDED__   
@@ -10,6 +10,7 @@ This file includes all the operator implementations
 #include "operations/divideOperation_Impl.h"
 #include "operations/dotOperation_Impl.h"
 #include "operations/exponentOperation_Impl.h"
+#include "operations/sigmoidOperation_Impl.h"
 
 #endif
 

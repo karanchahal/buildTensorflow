@@ -58,7 +58,6 @@ void newSigmoidTest() {
     auto grad = Matrix<float>(vsl,sh);
     k.backward(grad);
 
-
     cout<<w0.grad<<endl;
     cout<<x0.grad<<endl;
 
@@ -84,25 +83,89 @@ API guide:
     Cases will be multilayer perceptron, batch size, input vector
     layer weights would be input vector, output layer, hence add one to batch size dim
     The matrix multiply the uses two interior dims as 2D matrices as input
-     Output will be 
+    Output will be 
 
 */
 
-int main() {
-    vector<int> a({1,2,3,4,5,6});
-    vector<int> b({1,2,3,4,5,6,4,5,6});
-    vector<int> shape1({2,3});
-    vector<int> shape2({3,3});
-    Matrix<int> m1(a,shape1);
-    Matrix<int> m2(b,shape2);
+void sigmoidPointerTest() {
+
+    Tensor<float>* w0 = new Tensor<float>({2},{1});
+    Tensor<float>* x0= new Tensor<float>({-1},{1});
+
+    Tensor<float>* w1= new Tensor<float>({-3},{1});
+    Tensor<float>* x1= new Tensor<float>({-2},{1});
+
+    Tensor<float>* w3= new Tensor<float>({-3},{1});
     
-  
-    cout<<m1<<endl;
-    cout<<m2<<endl;
-    auto m3 = m1.dot(m2);
-    cout<<m3<<endl;
+    auto a = tensorOps::multiply(w0,x0);
+    auto b = tensorOps::multiply(w1,x1);
+    auto c = tensorOps::add(a,b);
+    auto d = tensorOps::add(w3,c);
+
+    Tensor<float>* e = new Tensor<float>({-1}, {1});
+    auto f = tensorOps::multiply(d,e);
+
+    auto g = tensorOps::exp(f); // exponent
+
+    Tensor<float>* h = new Tensor<float>({1}, {1});
+    auto i = tensorOps::add(g,h);
+
+    Tensor<float>* j = new Tensor<float>({1}, {1});
+    auto k = tensorOps::divide(j,i);
+    
+    auto grad = Matrix<float>({1},{1});
+    k->backward(grad);
+
+
+    cout<<w0->grad<<endl;
+    cout<<x0->grad<<endl;
+
+    cout<<w1->grad<<endl;
+    cout<<x1->grad<<endl;
+
+    cout<<w3->grad<<endl;
+}
+
+void updatedSigmoidtest() {
+    Tensor<float>* w0 = new Tensor<float>({2},{1});
+    Tensor<float>* x0= new Tensor<float>({-1},{1});
+
+    Tensor<float>* w1= new Tensor<float>({-3},{1});
+    Tensor<float>* x1= new Tensor<float>({-2},{1});
+
+    Tensor<float>* w3= new Tensor<float>({-3},{1});
+    
+    auto a = tensorOps::multiply(w0,x0);
+    auto b = tensorOps::multiply(w1,x1);
+    auto c = tensorOps::add(a,b);
+    auto d = tensorOps::add(w3,c);
+
+    auto k = tensorOps::sigmoid(d);
+    k->backward();
+
+    cout<<w0->grad<<endl;
+    cout<<x0->grad<<endl;
+
+    cout<<w1->grad<<endl;
+    cout<<x1->grad<<endl;
+
+    cout<<w3->grad<<endl;
+
+}
+
+
+int main() {
+    Tensor<float> a({2},{1});
+    Tensor<float> b({4},{1});
+
+    auto loss = a+b;
+    cout<<loss.val<<endl;
+    loss.backward();
+
     oldSigmoidTest();
-    cout<<endl;
     newSigmoidTest();
+    sigmoidPointerTest();
+    updatedSigmoidtest();
+
 }
 

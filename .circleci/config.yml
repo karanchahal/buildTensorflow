@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+
+    steps:
+      - checkout
+
+      - run:
+          name: Installing Dependencies
+          command: sh ./dependencies.sh
+
+      - run:
+          name: Setting up project
+          command: sh ./setup.sh
+
+      - run:
+          name: Tests
+          command: make test

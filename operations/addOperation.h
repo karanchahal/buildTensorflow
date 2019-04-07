@@ -1,6 +1,6 @@
 /*
-This file defines the AddOperation class which represents the addition of
-two tensors.
+    This file defines the AddOperation class which represents the addition of
+    two tensors.
 */
 
 #include "operations/operation.h"
@@ -11,17 +11,17 @@ two tensors.
 template <typename T>
 class AddOperation : public Operation<T> {
     public:
-    Tensor<T> *t1 = NULL, *t2 = NULL; // Input tensors
-    Tensor<T> *t3 = NULL; // Output tensor
-
-    AddOperation(Tensor<T> *t1, Tensor<T> *t2) : Operation<T>(t1,t2){
+    
+    AddOperation(Tensor<T> *t1, Tensor<T> *t2) {
         this->t1 = t1;
         this->t2 = t2;
     }
 
     void backward(Matrix<T> grad);
 
-    Tensor<T> forward();
+    Tensor<T> forwardDeprecated();
+
+    Tensor<T>* forward();
 
 };
 
