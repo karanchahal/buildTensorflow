@@ -24,6 +24,21 @@ namespace tensorOps {
         return add(one,two);
     }
 
+    // Subtraction
+    template<typename T>
+    Tensor<T>* subtract(Tensor<T>* one, Tensor<T>* two) {
+        one->frontOp = new SubtractOperation<T>(one, two);
+        two->frontOp = one->frontOp;
+        return one->frontOp->forward();
+    }
+
+    // Subtraction with Scalar
+    template<typename T>
+    Tensor<T>* subtract(T v, Tensor<T>* two) {
+        auto one = new Tensor<T>(vector<T>(two->val.val.size(),v),two->val.shape);
+        return subtract(one,two);
+    }
+
     // Divide 
     template<typename T>
     Tensor<T>* divide(Tensor<T>* one, Tensor<T>* two) {

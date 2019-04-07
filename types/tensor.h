@@ -20,6 +20,7 @@
 
 #include "operations/operation.h"
 #include "operations/addOperation.h"
+#include "operations/subtractOperation.h"
 #include "operations/multiplyOperation.h"
 #include "operations/divideOperation.h"
 #include "operations/exponentOperation.h"
