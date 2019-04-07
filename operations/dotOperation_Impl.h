@@ -38,7 +38,7 @@ void DotOperation<T>::backward(Matrix<T> grad) {
     TODO: Remove: See addition operation impl for more details
 */
 template <typename T>
-Tensor<T> DotOperation<T>::forward() {
+Tensor<T> DotOperation<T>::forwardDeprecated() {
 
     auto val3 = this->t1->val.dot(this->t2->val);
     this->t3 = new Tensor<T>(val3,this);
@@ -49,7 +49,7 @@ Tensor<T> DotOperation<T>::forward() {
     Forward Propogation of the operation. Return pointer to the tensor.
 */
 template <typename T>
-Tensor<T>* DotOperation<T>::forwardPointer() {
+Tensor<T>* DotOperation<T>::forward() {
 
     auto val3 = this->t1->val.dot(this->t2->val);
     this->t3 = new Tensor<T>(val3,this);

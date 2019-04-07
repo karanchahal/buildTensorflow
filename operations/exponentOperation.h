@@ -18,9 +18,9 @@ class ExponentOperation : public Operation<T> {
 
     void backward(Matrix<T> grad);
 
-    Tensor<T> forward();
+    Tensor<T> forwardDeprecated();
 
-    Tensor<T>* forwardPointer();
+    Tensor<T>* forward();
 
 };
 

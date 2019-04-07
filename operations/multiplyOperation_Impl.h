@@ -29,7 +29,7 @@ void MultiplyOperation<T>::backward(Matrix<T> grad) {
     TODO: Remove: See addition operation impl for more details
 */
 template <typename T>
-Tensor<T> MultiplyOperation<T>::forward() {
+Tensor<T> MultiplyOperation<T>::forwardDeprecated() {
     this->t3 = new Tensor<T>(this->t1->val * this->t2->val, this);
     return *this->t3;
 }
@@ -38,7 +38,7 @@ Tensor<T> MultiplyOperation<T>::forward() {
     Forward Propogation of the operation. Return pointer to the tensor.
 */
 template <typename T>
-Tensor<T>* MultiplyOperation<T>::forwardPointer() {
+Tensor<T>* MultiplyOperation<T>::forward() {
     this->t3 = new Tensor<T>(this->t1->val * this->t2->val, this);
     return this->t3;
 }

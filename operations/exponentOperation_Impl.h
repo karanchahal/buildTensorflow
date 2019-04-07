@@ -25,7 +25,7 @@ void ExponentOperation<T>::backward(Matrix<T> grad) {
     TODO: Remove: See addition operation impl for more details
 */
 template <typename T>
-Tensor<T> ExponentOperation<T>::forward() {
+Tensor<T> ExponentOperation<T>::forwardDeprecated() {
     this->t3 = new Tensor<T>(this->t1->val.exp(), this);
     return *this->t3;
 }
@@ -34,7 +34,7 @@ Tensor<T> ExponentOperation<T>::forward() {
     Forward Propogation of the operation. Return pointer to the tensor.
 */
 template <typename T>
-Tensor<T>* ExponentOperation<T>::forwardPointer() {
+Tensor<T>* ExponentOperation<T>::forward() {
     this->t3 = new Tensor<T>(this->t1->val.exp(), this);
     return this->t3;
 }

@@ -28,7 +28,7 @@ void AddOperation<T>::backward(Matrix<T> grad) {
     2. Avoid weird allocation issues
 */
 template <typename T>
-Tensor<T> AddOperation<T>::forward() {
+Tensor<T> AddOperation<T>::forwardDeprecated() {
     this->t3 = new Tensor<T>(this->t1->val + this->t2->val, this);
     return *this->t3;
 }
@@ -37,7 +37,7 @@ Tensor<T> AddOperation<T>::forward() {
     Forward Propogation of the operation. Return pointer to the tensor.
 */
 template <typename T>
-Tensor<T>* AddOperation<T>::forwardPointer() {
+Tensor<T>* AddOperation<T>::forward() {
     this->t3 = new Tensor<T>(this->t1->val + this->t2->val, this);
     return this->t3;
 }

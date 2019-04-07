@@ -153,10 +153,19 @@ void updatedSigmoidtest() {
 
 }
 
+
 int main() {
-    Dense<float> fc1(2,5);
-    Tensor<float>* x = new Tensor<float>({1,2},{1,2});
-    auto m = fc1.forward(x);
-    m->backward();
+    Tensor<float> a({2},{1});
+    Tensor<float> b({4},{1});
+
+    auto loss = a+b;
+    cout<<loss.val<<endl;
+    loss.backward();
+
+    oldSigmoidTest();
+    newSigmoidTest();
+    sigmoidPointerTest();
+    updatedSigmoidtest();
+
 }
 

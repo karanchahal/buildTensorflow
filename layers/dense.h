@@ -26,7 +26,7 @@
     TODO: Shift these to a common header file in the future
 */
 
-enum activation{SIGMOID, RELU}; 
+enum activation{SIGMOID, RELU, NO_ACTIVATION}; 
 enum initalisation{GLOROT};
 
 template<typename T>
@@ -82,13 +82,14 @@ class Dense{
     */
     Tensor<T>* forward(Tensor<T> *x) {
 
-
         auto dot = tensorOps::dot(x,weights);
         auto z = tensorOps::add(dot, biases);
         Tensor<T>* logits;
         
         if(act == SIGMOID) {
             logits = tensorOps::sigmoid(z);
+        } else if(act == NO_ACTIVATION) {
+            logits = z;
         }
         
         return logits;

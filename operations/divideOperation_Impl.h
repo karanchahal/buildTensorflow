@@ -29,7 +29,7 @@ void DivideOperation<T>::backward(Matrix<T> grad) {
     TODO: Remove: See addition operation impl for more details
 */
 template <typename T>
-Tensor<T> DivideOperation<T>::forward() {
+Tensor<T> DivideOperation<T>::forwardDeprecated() {
     this->t3 = new Tensor<T>(this->t1->val / this->t2->val, this);
     return *this->t3;
 }
@@ -38,7 +38,7 @@ Tensor<T> DivideOperation<T>::forward() {
     Forward Propogation of the operation. Return pointer to the tensor.
 */
 template <typename T>
-Tensor<T>* DivideOperation<T>::forwardPointer() {
+Tensor<T>* DivideOperation<T>::forward() {
     this->t3 = new Tensor<T>(this->t1->val / this->t2->val, this);
     return this->t3;
 }

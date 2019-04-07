@@ -42,8 +42,8 @@ class Tensor {
     */
     void zeroGrad() {
         assert(val.shape.size() != 0 && "The value of matrix cannot be uninitialised during initialisng zeros in tensor's gradient");
-        vector<T> g(val.val.size(),0);
-        this->grad = Matrix<T>(g,val.shape);
+        vector<T> g(val.val.size(), 0);
+        this->grad = Matrix<T>(g, val.shape);
     }
 
     public:
@@ -99,7 +99,7 @@ class Tensor {
         an easy way to create tensors.
     */
     Tensor(vector<T> val, vector<int> shape) {
-        this->val = Matrix<T>(val,shape);
+        this->val = Matrix<T>(val, shape);
         zeroGrad();
     }
 
@@ -160,7 +160,7 @@ class Tensor {
         // TODO: add assertions
         this->frontOp = new MultiplyOperation<T>(this, &two);
         two.frontOp = this->frontOp;
-        return this->frontOp->forward();
+        return this->frontOp->forwardDeprecated();
     }
 
     Tensor<T> operator * (const Tensor<T> &two) { 
@@ -176,7 +176,7 @@ class Tensor {
         // TODO: add assertions
         this->frontOp = new AddOperation<T>(this, &two);
         two.frontOp = this->frontOp;
-        return this->frontOp->forward();
+        return this->frontOp->forwardDeprecated();
     }
 
     Tensor<T> operator + (const Tensor<T> &two) { 
@@ -192,7 +192,7 @@ class Tensor {
         // TODO: add assertions
         this->frontOp = new DivideOperation<T>(this, &two);
         two.frontOp = this->frontOp;
-        return this->frontOp->forward();
+        return this->frontOp->forwardDeprecated();
     }
 
     Tensor<T> operator / (const Tensor<T> &two) { 
@@ -208,7 +208,7 @@ class Tensor {
         // TODO: add assertions
         this->frontOp = new DotOperation<T>(this, &two);
         two.frontOp = this->frontOp;
-        return this->frontOp->forward();
+        return this->frontOp->forwardDeprecated();
     }
 
     /*
@@ -217,7 +217,7 @@ class Tensor {
     Tensor<T> exp() { 
         // TODO: add assertions
         this->frontOp = new ExponentOperation<T>(this);
-        return this->frontOp->forward();
+        return this->frontOp->forwardDeprecated();
     }
 
     // Destructor

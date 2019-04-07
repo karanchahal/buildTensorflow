@@ -30,7 +30,7 @@ void SigmoidOperation<T>::backward(Matrix<T> grad) {
     TODO: Remove: See addition operation impl for more details
 */
 template <typename T>
-Tensor<T> SigmoidOperation<T>::forward() {
+Tensor<T> SigmoidOperation<T>::forwardDeprecated() {
    // Not implemented as yet
    return NULL;
 }
@@ -39,7 +39,7 @@ Tensor<T> SigmoidOperation<T>::forward() {
     Forward Propogation of the operation. Return pointer to the tensor.
 */
 template <typename T>
-Tensor<T>* SigmoidOperation<T>::forwardPointer() {
+Tensor<T>* SigmoidOperation<T>::forward() {
     auto val = matrixOps::sigmoid(this->t1->val);
     this->t3 = new Tensor<T>(val,this);
     return this->t3;
