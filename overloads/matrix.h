@@ -23,27 +23,27 @@ ostream & operator << (ostream &out, Matrix<T> &m) {
 }
 
 // Divison with a scalar as divident
-template<typename E>
-Matrix<E> operator / (const E e, const Matrix<E> &rhs) {
-    auto res =  e/rhs.val;
+template<typename T>
+Matrix<T> operator / (const T t, const Matrix<T> &rhs) {
+    auto res =  t/rhs.val;
     auto resShape = rhs.shape;
-    return Matrix<E>(res, resShape);
+    return Matrix<T>(res, resShape);
 }
 
 // Multiplication with a scalar
-template<typename E>
-Matrix<E> operator * (const E e, const Matrix<E> &rhs) {
-    auto res =  e*rhs.val;
+template<typename T>
+Matrix<T> operator * (const T t, const Matrix<T> &rhs) {
+    auto res =  t*rhs.val;
     auto resShape = rhs.shape;
-    return Matrix<E>(res, resShape);
+    return Matrix<T>(res, resShape);
 }
 
 // Addition with a scalar
-template<typename E>
-Matrix<E> operator + (const E e, const Matrix<E> &rhs) {
-    auto res =  e+rhs.val;
+template<typename T>
+Matrix<T> operator + (const T t, const Matrix<T> &rhs) {
+    auto res =  t+rhs.val;
     auto resShape = rhs.shape;
-    return Matrix<E>(res, resShape);
+    return Matrix<T>(res, resShape);
 }
 
 #endif

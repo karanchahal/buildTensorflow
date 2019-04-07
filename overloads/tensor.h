@@ -20,7 +20,7 @@ namespace tensorOps {
     // Addition with Scalar
     template<typename T>
     Tensor<T>* add(T v, Tensor<T>* two) {
-        auto one = new Tensor<T>(vector<T>(two->val.val.size(),v),two->val.shape);
+        auto one = new Tensor<T>(vector<T>(two->val.val.size(), v), two->val.shape);
         return add(one,two);
     }
 
@@ -35,7 +35,7 @@ namespace tensorOps {
     // Divide Scalar
     template<typename T>
     Tensor<T>* divide(T v, Tensor<T>* two) {
-        auto one = new Tensor<T>(vector<T>(two->val.val.size(),v),two->val.shape);
+        auto one = new Tensor<T>(vector<T>(two->val.val.size(), v), two->val.shape);
         return divide(one,two);
     }
 
@@ -50,7 +50,7 @@ namespace tensorOps {
     // Multiply with scalar
     template<typename T>
     Tensor<T>* multiply(T v, Tensor<T>* two) {
-        auto one = new Tensor<T>(vector<T>(two->val.val.size(),v),two->val.shape);
+        auto one = new Tensor<T>(vector<T>(two->val.val.size(), v), two->val.shape);
         return multiply(one,two);
     }
 
