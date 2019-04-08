@@ -245,6 +245,15 @@ struct Matrix{
         return Matrix(res, resShape);
     }
 
+    // Performs elementwise subtraction
+    Matrix<T> operator - (const Matrix<T> &rhs) {
+        assert("Shapes aren't compatible for addition !" &&
+         verifyShapeForElementwiseOperation(this->shape, rhs.shape));
+
+        auto res = this->val - rhs.val;
+        auto resShape = this->shape;
+        return Matrix(res, resShape);
+    }
 
     // Performs elementwise division
     Matrix<T> operator / (const Matrix<T> &rhs) {

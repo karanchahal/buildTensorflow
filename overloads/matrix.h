@@ -46,4 +46,12 @@ Matrix<T> operator + (const T t, const Matrix<T> &rhs) {
     return Matrix<T>(res, resShape);
 }
 
+// Subtraction with a scalar
+template<typename T>
+Matrix<T> operator - (const T t, const Matrix<T> &rhs) {
+    auto res =  t-rhs.val;
+    auto resShape = rhs.shape;
+    return Matrix<T>(res, resShape);
+}
+
 #endif

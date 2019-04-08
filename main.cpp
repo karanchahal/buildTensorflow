@@ -153,19 +153,22 @@ void updatedSigmoidtest() {
 
 }
 
+#include "optims/sgd.h"
 
 int main() {
-    Tensor<float> a({2},{1});
-    Tensor<float> b({4},{1});
+    Tensor<float>* a = new Tensor<float>({2},{1});
+    Tensor<float>* b = new Tensor<float>({4},{1});
+    auto loss = tensorOps::add(a,b);
+    cout<<loss->val<<endl;
+    loss->backward();
 
-    auto loss = a+b;
-    cout<<loss.val<<endl;
-    loss.backward();
+    SGD<float> sgd;
 
-    oldSigmoidTest();
-    newSigmoidTest();
-    sigmoidPointerTest();
-    updatedSigmoidtest();
+    // Minimises all tensors wrt to loss
+    // after updating values with gradients
+    // it resets all gradients
+    sgd.minimise(loss,0.1);
+
 
 }
 
