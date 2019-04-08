@@ -14,8 +14,9 @@ class SGD : public Optimizer<T> {
 
     public: 
 
-    SGD() {
+    SGD(T lr) {
         this->params.clear();
+        this->lr = lr;
     }
 
     void getParams(Tensor<T>* x) {
@@ -44,24 +45,27 @@ class SGD : public Optimizer<T> {
         }
     }
 
-    void minimise(Tensor<T>* x, T lr) {
+    void minimise(Tensor<T>* x) {
 
         // Get all tensors in computational grqaph
         getParams(x);
 
         // step through 1 parameter update
-        step(lr);
+        step(this->lr);
 
         // reset Gradients to zero
         this->zeroGrad();
        
     }
 
-    // Perform 1 step of learniung rate 
+    // Perform 1 step of learning rate 
     void step(T learning_rate) {
+
         for(auto t: this->params) {
             t->val = t->val - learning_rate*t->grad;
         }
+
+        this->params.clear(); // Clear out old params. Should we do this ? 
     }
 
 };

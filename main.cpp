@@ -151,6 +151,7 @@ void updatedSigmoidtest() {
 
     cout<<w3->grad<<endl;
 
+    delete k;
 }
 
 #include "optims/sgd.h"
@@ -162,13 +163,14 @@ int main() {
     cout<<loss->val<<endl;
     loss->backward();
 
-    SGD<float> sgd;
+    SGD<float> sgd(0.1);
 
     // Minimises all tensors wrt to loss
     // after updating values with gradients
     // it resets all gradients
-    sgd.minimise(loss,0.1);
+    sgd.minimise(loss);
 
-
+    // Will recursively delete all tensors & ops attached to it
+    delete loss;
 }
 

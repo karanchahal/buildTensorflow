@@ -40,6 +40,11 @@ class Operation {
     
     // New API for forward Prop
     virtual Tensor<T>* forward() = 0;
+
+    ~Operation() {
+        delete t1;
+        delete t2;
+    }
     
 };
 

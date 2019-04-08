@@ -16,7 +16,7 @@ TEST( TENSOR_TESTS, TensorCreation) {
     ASSERT_DEATH({
         vector<int> a({1,2,3,4,5,6});
         vector<int> shape1({2,4});
-        Matrix<int> m1(a,shape1);
+        Tensor<int> m1(a,shape1);
     }, "Shape and size of vector are incompatible !");
 
     // testing for no asserts with various dimensions that can used in nd matrix
@@ -24,9 +24,9 @@ TEST( TENSOR_TESTS, TensorCreation) {
     vector<int> shape1({2,3});
     vector<int> shape2({1,1,1,2,3});
     vector<int> shape3({2,3,1,1,1});
-    Matrix<int> m1(a,shape1);
-    m1 = Matrix<int>(a,shape2);
-    m1 = Matrix<int>(a,shape3);
+    Tensor<int> m1(a,shape1);
+    m1 = Tensor<int>(a,shape2);
+    m1 = Tensor<int>(a,shape3);
 }
 
 /*
@@ -42,6 +42,9 @@ TEST( TENSOR_TESTS, TensorAddOperations) {
     Matrix<int> res({2,4,6,8,10},{5});
 
     ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res));
+
+    // Clean up
+    delete ans;
 }
 
 
@@ -53,6 +56,9 @@ TEST( TENSOR_TESTS, TensorMultiplyOperations) {
     Matrix<int> res({1,4,9,16,25},{5});
 
     ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res));
+
+    // Clean up
+    delete ans;
 }
 
 TEST( TENSOR_TESTS, TensorDivideOperations) {
@@ -63,6 +69,9 @@ TEST( TENSOR_TESTS, TensorDivideOperations) {
     Matrix<int> res({5,2,5,2,1},{5});
 
     ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res));
+
+    // Clean up
+    delete ans;
 }
 
 /*
@@ -90,6 +99,9 @@ TEST( TENSOR_TESTS, TensorSigmoidOperations) {
 
     Matrix<float> resGrad({0.196611926}, {1});
     ASSERT_TRUE(testUtils::isMatrixEqual(one->grad,resGrad)); // check back Propogation
+
+    // Clean up
+    delete ans;
 }
 
 /*
@@ -211,6 +223,9 @@ TEST( TENSOR_TESTS, ComputationGraph) {
     ASSERT_TRUE(x1->frontOp == b->backOp);
     ASSERT_TRUE(x1->backOp == NULL);
 
+    // Clean up
+    delete k;
+
 }
 
 /*
@@ -258,4 +273,7 @@ TEST(TENSOR_TESTS, BackwardPropogation) {
 
     res =  Matrix<float>({0.196611971},{1});
     ASSERT_TRUE(testUtils::isMatrixEqual(w3->grad,res));
+
+    // Clean up
+    delete k;
 }

@@ -226,7 +226,7 @@ class Tensor {
     ~Tensor() {
         // Go back towards computational graph
         // delete every Tensor and Op encountered in a DFS fashion
-
+        delete backOp;
     }
 
 };

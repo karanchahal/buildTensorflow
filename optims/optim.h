@@ -3,7 +3,7 @@
 */
 
 #include "types/tensor.h"
-#include "set"
+#include "unordered_set"
 
 #ifndef __OPTIM_BASE_INCLUDED__   
 #define __OPTIM_BASE_INCLUDED__ 
@@ -12,7 +12,8 @@ template<typename T>
 class Optimizer {
     
     public:
-    set<Tensor<T>*> params;
+    unordered_set<Tensor<T>*> params;
+    T lr;
 
     Optimizer() {
         

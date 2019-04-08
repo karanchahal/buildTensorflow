@@ -7,6 +7,7 @@
 #include "tests/matrix.h"
 #include "tests/tensor.h"
 #include "tests/dense.h"
+#include "tests/sgd.h"
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
