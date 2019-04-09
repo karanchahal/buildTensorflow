@@ -1,5 +1,18 @@
 /*
-    This file defines the Stochastic Gradient Descent Optimiser
+    This file defines the Stochastic Gradient Descent Optimiser. The Stochastic Gradient Descent
+    Optimizer takes the loss computed over a single training example or the averages of the loss
+    computed with multiple training examples and "minimises" the loss.
+
+    By minimising, we mean it finds out all the updatable tensors that contributed towards 
+    computing this loss. Once it has these parameters it performs an update step on each 
+    parameter (Tensor) to tweak them into the right direction to minimise the overall loss.
+
+    It performs this update step by this formula:
+    
+    val = val - learning_rate*gradient_of_val
+    
+    Where val is the value of the tensor and gradient_of_val is the partial gradient of the
+    tensor with respect to the loss.
 */
 
 #include "optims/optim.h"
@@ -19,6 +32,15 @@ class SGD : public Optimizer<T> {
         this->lr = lr;
     }
 
+    /*
+        This function does a full search through the computational graph of the Tensor x and
+        stores all the Tensor nodes of the graph in the params set.
+
+        The params set represents all the tensors that need t be updated.
+
+        As of now, a BFS style algorithm traverses through the graph to find out all the Tensor
+        nodes.
+    */
     void getParams(Tensor<T>* x) {
         
         queue<Tensor<T>*> q;
@@ -45,9 +67,16 @@ class SGD : public Optimizer<T> {
         }
     }
 
+    /*
+        This function is the function all users will use to perfrom the gradient descent update
+        for their model. It perfroms this operation in 3 phases.
+        1. gets all tensor parameters
+        2. Updates all these paramaters via the step function
+        3. Clear's all the gradients of the parameters for the next step.
+    */
     void minimise(Tensor<T>* x) {
 
-        // Get all tensors in computational grqaph
+        // Get all tensors in computational graph
         getParams(x);
 
         // step through 1 parameter update
@@ -58,7 +87,7 @@ class SGD : public Optimizer<T> {
        
     }
 
-    // Perform 1 step of learning rate 
+    // Performs 1 step of gradient descent. See top of the file to see definition of SGD. 
     void step(T learning_rate) {
 
         for(auto t: this->params) {
