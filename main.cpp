@@ -155,22 +155,16 @@ void updatedSigmoidtest() {
 }
 
 #include "optims/sgd.h"
+#include "data/celsius2faranheit.h"
 
 int main() {
-    Tensor<float>* a = new Tensor<float>({2},{1});
-    Tensor<float>* b = new Tensor<float>({4},{1});
-    auto loss = tensorOps::add(a,b);
-    cout<<loss->val<<endl;
-    loss->backward();
+    Celsius2Faranheit<float,float> dataset;
+    dataset.create(5);
+    for(auto i: dataset.dataset) {
+        auto inp = i.first;
+        auto tar = i.second;
 
-    SGD<float> sgd(0.1);
-
-    // Minimises all tensors wrt to loss
-    // after updating values with gradients
-    // it resets all gradients
-    sgd.minimise(loss);
-
-    // Will recursively delete all tensors & ops attached to it
-    delete loss;
+        cout<<"Input: "<<inp<<" "<<"Target: "<<tar<<endl;
+    }
 }
 
