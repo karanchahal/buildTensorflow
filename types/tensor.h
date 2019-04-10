@@ -220,12 +220,13 @@ class Tensor {
         return this->frontOp->forwardDeprecated();
     }
 
-    // Destructor
-    // Deletes all dependencies to this tensor
-    // TODO
+    /* 
+        Go back towards computational graph and deletes every Tensor and Op encountered 
+        in a DFS fashion
+
+        TODO: find better way to clear memory of all tensors and prevent memory leaks.
+    */
     ~Tensor() {
-        // Go back towards computational graph
-        // delete every Tensor and Op encountered in a DFS fashion
         delete backOp;
     }
 

@@ -48,5 +48,7 @@ int main() {
 
     cout<<"The conversion of "<<cel<<" degrees celcius to faranheit is "<<out1->val<<endl; // For 4 Celcius: it's ~39.2
 
+    // Clean up
+    delete out1;
 }
 

@@ -71,9 +71,9 @@ class SGD : public Optimizer<T> {
 
     /*
         This function is the function all users will use to perfrom the gradient descent update
-        for their model. It perfroms this operation in 3 phases.
-        1. gets all tensor parameters
-        2. Updates all these paramaters via the step function
+        for their model. It performs this operation in 3 phases.
+        1. Gets all tensor parameters
+        2. Updates all these parameters via the step function
         3. Clear's all the gradients of the parameters for the next step.
     */
     void minimise(Tensor<T>* x) {
