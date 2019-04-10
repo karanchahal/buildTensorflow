@@ -8,9 +8,9 @@ template<typename I, typename T>
 class DataLoader {
 
     public: 
-    vector<pair<I,T>> dataset;
+    vector<pair<I,T>> data;
 
     virtual void add(I input, T target) = 0;
-};
+}; 
 
 #endif

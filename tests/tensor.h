@@ -105,6 +105,28 @@ TEST( TENSOR_TESTS, TensorSigmoidOperations) {
 }
 
 /*
+    This test checks the backward pass and forward pass of the power operation.
+*/
+TEST( TENSOR_TESTS, TensorPowerOperations) {
+    
+    Tensor<float>* one = new Tensor<float>({2,3,4},{1,3});
+    float pow = 3;
+    auto ans = tensorOps::power(one,pow);
+    Matrix<float> res({8,27,64}, {1,3});
+
+    ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res)); // check front Propogation
+
+    ans->backward();
+
+    Matrix<float> resGrad({12,27,48}, {1,3});
+    ASSERT_TRUE(testUtils::isMatrixEqual(one->grad,resGrad)); // check back Propogation
+
+    // Clean up
+    delete ans;
+}
+
+
+/*
     Test Computational Graph by checking Pointer Values of each
     tensor and operation for a barebones sigmoid function 
 */

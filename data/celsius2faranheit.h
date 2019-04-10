@@ -16,7 +16,7 @@ class Celsius2Faranheit: public DataLoader<I,T> {
 
     public: 
     void add(I input, T target) {
-        this->dataset.push_back(make_pair(input,target));
+        this->data.push_back(make_pair(input,target));
     }
 
     void create(int num_examples) {

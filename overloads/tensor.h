@@ -76,6 +76,13 @@ namespace tensorOps {
         return one->frontOp->forward();
     }
 
+    // Power
+    template<typename T>
+    Tensor<T>* power(Tensor<T>* one, T t) {
+        one->frontOp = new PowerOperation<T>(one, t);
+        return one->frontOp->forward();
+    }
+
 };
 
 #endif

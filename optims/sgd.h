@@ -43,6 +43,8 @@ class SGD : public Optimizer<T> {
     */
     void getParams(Tensor<T>* x) {
         
+        this->params.clear(); // Clear out old params. Should we do this ? 
+        
         queue<Tensor<T>*> q;
         q.push(x);
 
@@ -93,8 +95,6 @@ class SGD : public Optimizer<T> {
         for(auto t: this->params) {
             t->val = t->val - learning_rate*t->grad;
         }
-
-        this->params.clear(); // Clear out old params. Should we do this ? 
     }
 
 };

@@ -2,3 +2,5 @@
 #include "overloads/tensor.h"
 #include "operations/operations_Impl.h"
 #include "layers/dense.h"
+#include "optims/sgd.h"
+#include "data/celsius2faranheit.h"

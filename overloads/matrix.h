@@ -7,11 +7,19 @@
 #ifndef __MATRIX_OPS_INCLUDED__   
 #define __MATRIX_OPS_INCLUDED__  
 
-// Sigmoid 
+
 namespace matrixOps {
+
+    // Sigmoid Operation
     template<typename T>
     Matrix<T> sigmoid(const Matrix<T> &a) {
         return (T)1/((T)1 + (((T)-1)*a).exp());
+    }
+
+    // Power Operation
+    template<typename T>
+    Matrix<T> power(Matrix<T> &a, T pow) {
+        return a^pow;
     }
 };
 

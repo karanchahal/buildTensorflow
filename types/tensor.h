@@ -25,7 +25,7 @@
 #include "operations/exponentOperation.h"
 #include "operations/dotOperation.h"
 #include "operations/sigmoidOperation.h"
-#include "utils/matrix.h"
+#include "operations/powerOperation.h"
 
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   
