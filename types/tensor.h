@@ -20,11 +20,13 @@
 
 #include "operations/operation.h"
 #include "operations/addOperation.h"
+#include "operations/subtractOperation.h"
 #include "operations/multiplyOperation.h"
 #include "operations/divideOperation.h"
 #include "operations/exponentOperation.h"
 #include "operations/dotOperation.h"
 #include "operations/sigmoidOperation.h"
+#include "operations/averageOperation.h"
 
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   
