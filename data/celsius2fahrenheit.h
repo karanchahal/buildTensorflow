@@ -1,10 +1,10 @@
 /*
-    This file defines the Celsius To Faranheit DataLoader. It's input is variables containing the
-    celsius numbers and the targets are the corresponding faranheit numbers.
+    This file defines the Celsius To Fahrenheit DataLoader. It's input is variables containing the
+    celsius numbers and the targets are the corresponding fahrenheit numbers.
 
     The way to use this dataset is as follows:
 
-    Celsius2Faranheit<float,float> dataloader;
+    Celsius2Fahrenheit<float,float> dataloader;
     dataloader.create(10); // Creates 10 training examples
 
     for(auto i: dataloader.data) {
@@ -26,13 +26,13 @@
 #define __C2F_DATASET_INCLUDED__ 
 
 template<typename I, typename T>
-class Celsius2Faranheit: public DataLoader<I,T> {
+class Celsius2Fahrenheit: public DataLoader<I,T> {
     
     private:
     int MAX_CELSIUS = 10;
 
-    // Helper function to convert celsius to faranheit
-    T toFaranheit(I input) {
+    // Helper function to convert celsius to fahrenheit
+    T toFahrenheit(I input) {
         return (9*input)/5 + 32;
     }
 
@@ -47,7 +47,7 @@ class Celsius2Faranheit: public DataLoader<I,T> {
     void create(int num_examples) {
         for(int i=0; i< num_examples;i++) {
             I input = rand() % MAX_CELSIUS + 1; // random int value between 1 and MAX_CELSIUS
-            T target = toFaranheit(input);
+            T target = toFahrenheit(input);
             add(input,target);
         }
     }

@@ -19,7 +19,7 @@
 */
 template <typename T>
 void SigmoidOperation<T>::backward(Matrix<T> grad) {
-    auto g = ((T)1 + ((T)-1) * this->t3->val) * this->t3->val; // (1 - F)*F
+    auto g = ((T)1 - this->t3->val) * this->t3->val; // (1 - F)*F
     this->t1->backward(grad * g); // follow chain rule by multiplying by incoming gradient
 }
 

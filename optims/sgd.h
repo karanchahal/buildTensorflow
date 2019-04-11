@@ -16,7 +16,7 @@
 */
 
 #include "optims/optim.h"
-#include "queue"
+#include <queue>
 
 #ifndef __OPTIM_SGD_INCLUDED__   
 #define __OPTIM_SGD_INCLUDED__ 
@@ -91,7 +91,6 @@ class SGD : public Optimizer<T> {
 
     // Performs 1 step of gradient descent. See top of the file to see definition of SGD. 
     void step(T learning_rate) {
-
         for(auto t: this->params) {
             t->val = t->val - learning_rate*t->grad;
         }
