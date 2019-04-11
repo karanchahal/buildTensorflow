@@ -24,6 +24,12 @@ namespace utils {
 
         return Matrix<T>(m.val,shape);
     }
+
+    template< typename T>
+    Matrix<T> zerosLike(const Matrix<T> &m) {
+        vector<T> val(m.val.size(),0);
+        return Matrix<T>(val,m.shape);
+    }
 }
 
 #endif

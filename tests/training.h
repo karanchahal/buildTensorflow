@@ -1,7 +1,15 @@
 #include "buildTensorflow.h"
+#include <gtest/gtest.h>
+#include "tests/utils.h"
 
-// Example of training a network on the buildTensorflow framework.
-int main() {
+/*
+    This test trains a small neural network that learns how to convert celsius
+    to fahrenheit. The test checks if the neural network trains successfully.
+
+    We initiliase a neural network of 1 hidden neuron with no activation and
+    train with mse loss.
+*/
+TEST(TRAINING_TEST, Celsius2FahrenheitTest) {
     
     // Load Dataset
     Celsius2Fahrenheit<float,float> dataset;
@@ -14,7 +22,6 @@ int main() {
     SGD<float> sgd(0.01);
     
     // Train
-    cout<<"Training started"<<endl;
     for(int j = 0;j<2000;j++) {
         for(auto i: dataset.data) {
             // Get data
@@ -39,16 +46,17 @@ int main() {
         }
     }
 
-    cout<<"Training completed"<<endl;
-
     // Inference
     float cel = 4;
     auto test = new Tensor<float>({cel}, {1,1});
-    auto out1 = fc1.forward(test);
+    auto ans = fc1.forward(test);
+    
+    ans->val.val[0] = (int)ans->val.val[0]; // Approximating the answer to an int
+    auto res = Matrix<float>({39},{1,1}); // Answer should be approximately 39
 
-    cout<<"The conversion of "<<cel<<" degrees celcius to fahrenheit is "<<out1->val<<endl; // For 4 Celcius: it's ~39.2
+    ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res));
 
     // Clean up
-    delete out1;
-}
+    delete ans;
 
+}

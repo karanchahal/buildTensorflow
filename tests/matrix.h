@@ -128,6 +128,28 @@ TEST( MATRIX_TESTS, MatrixOperationMultiplicationCheck) {
 }
 
 /*
+    This test tests the accuracy of the power operation between a matrix and a scalar
+*/
+TEST( MATRIX_TESTS, MatrixOperationPowerCheck) {
+
+    vector<int> a({1,2,3});
+    vector<int> shape1({1,3});
+    Matrix<int> m1(a,shape1);
+    int pow = 3;
+    auto ans = m1^pow; // Checking barebones operation
+    Matrix<int> res({1,8,27},{1,3});
+
+    ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
+
+    Matrix<int> m2({1,2,3},{1,3});
+    pow = 2;
+    Matrix<int> res2({1,4,9},{1,3});
+    auto ans2 = matrixOps::power(m2,pow); // Checking wrapper function
+
+    ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans2,res2));
+}
+
+/*
     This test tests the accuracy of the division operation between 2 matrices
 */
 TEST( MATRIX_TESTS, MatrixOperationDivisionCheck) {
@@ -143,17 +165,6 @@ TEST( MATRIX_TESTS, MatrixOperationDivisionCheck) {
     ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
 }
 
-/*
-    This test tests the accuracy of the power operation between matrice and scalar
-*/
-TEST( MATRIX_TESTS, MatrixOperationPowerCheck) {
-    vector<int> a({1,2,3});
-    vector<int> shape1({1,3});
-    Matrix<int> m1(a,shape1);
-    auto ans = m1^2;
-    Matrix<int> res({1,4,9},{1,3});
-    ASSERT_TRUE(testUtils::isMatrixEqual<int>(ans,res));
-}
 
 /*
     This test tests the accuracy of the exponent operation.

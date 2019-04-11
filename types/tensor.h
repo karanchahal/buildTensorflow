@@ -25,26 +25,13 @@
 #include "operations/exponentOperation.h"
 #include "operations/dotOperation.h"
 #include "operations/sigmoidOperation.h"
+#include "operations/powerOperation.h"
 
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   
 
 template <typename T>
 class Tensor {
-    private:
-
-    /*
-        This function is called during the initilaisation of Tensor. It sets the value of it's gradients to zero. This is needed as 
-        during backPropogation the same tensor can be used for different operation, hence to calculate it's partial gradients
-        each individual operation's gradients have to be summed up. Hence we initialise the tensor's gradients to zero.
-        
-        See constructor for it's usage.
-    */
-    void zeroGrad() {
-        assert(val.shape.size() != 0 && "The value of matrix cannot be uninitialised during initialisng zeros in tensor's gradient");
-        vector<T> g(val.val.size(), 0);
-        this->grad = Matrix<T>(g, val.shape);
-    }
 
     public:
     
@@ -146,6 +133,19 @@ class Tensor {
     }
 
     /*
+        This function is called during the initilaisation of Tensor. It sets the value of it's gradients to zero. This is needed as 
+        during backPropogation the same tensor can be used for different operation, hence to calculate it's partial gradients
+        each individual operation's gradients have to be summed up. Hence we initialise the tensor's gradients to zero.
+        
+        See constructor for it's usage.
+    */
+    void zeroGrad() {
+        assert(val.shape.size() != 0 && "The value of matrix cannot be uninitialised during initialisng zeros in tensor's gradient");
+        vector<T> g(val.val.size(), 0);
+        this->grad = Matrix<T>(g, val.shape);
+    }
+
+    /*
         From here on, we overload the operators like +, / and * to define what happens when
         we we add, divide and multiply tensors. We also support other operations like dot 
         product (used heavily in fully connected, convolution and recurrent networks).
@@ -220,10 +220,14 @@ class Tensor {
         return this->frontOp->forwardDeprecated();
     }
 
-    // Destructor
+    /* 
+        Go back towards computational graph and deletes every Tensor and Op encountered 
+        in a DFS fashion
+
+        TODO: find better way to clear memory of all tensors and prevent memory leaks.
+    */
     ~Tensor() {
-        // delete backOp;
-        // delete frontOp;
+        delete backOp;
     }
 
 };
