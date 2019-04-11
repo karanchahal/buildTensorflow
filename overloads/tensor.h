@@ -91,6 +91,21 @@ namespace tensorOps {
         return one->frontOp->forward();
     }
 
+    // Average
+    template<typename T>
+    Tensor<T>* average(vector<Tensor<T>*>& tensors) {
+        if (tensors.size() == 0) {  // To avoid division by zero. Should we do this?
+            return NULL;
+        }
+
+        Operation<T> op = new AverageOperation<T>(tensors);
+        for (auto t : tensors) {
+            t->frontOp = op;
+        }
+
+        return tensors[0]->frontOp->forward();
+    }
+
 };
 
 #endif

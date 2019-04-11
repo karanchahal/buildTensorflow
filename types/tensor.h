@@ -26,6 +26,7 @@
 #include "operations/exponentOperation.h"
 #include "operations/dotOperation.h"
 #include "operations/sigmoidOperation.h"
+#include "operations/averageOperation.h"
 
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   
