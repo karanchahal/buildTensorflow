@@ -385,6 +385,5 @@ void dotGPU(vector<T> &res, const Matrix<T> *lhs, const Matrix<T> &rhs, int star
 }
 
 
-
 #endif
 
