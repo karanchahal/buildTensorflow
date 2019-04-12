@@ -2,9 +2,17 @@
     This file tests the matrix layer.
 */
 
+// temporary global variable. TODO: remove
+#ifndef __GPU_INCLUDED__   
+#define __GPU_INCLUDED__ 
+bool gpu = false;
+#endif 
+
 #include <iostream>
 #include <gtest/gtest.h>
+#include "gpu/defn.h" // Includes GPU Kernel Code Defination for Forward pass
 #include "types/matrix.h"
+#include "gpu/cpuImpl.h" // Includes GPU Kernel Code Implementation
 #include "overloads/matrix.h"
 #include "tests/utils.h"
 
