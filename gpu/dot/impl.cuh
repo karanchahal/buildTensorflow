@@ -1,3 +1,5 @@
+#include<iostream>
+#include<vector>
 
 #ifndef __GPU_DOT_IMPL_INCLUDED__   
 #define __GPU_DOT_IMPL_INCLUDED__  
@@ -5,7 +7,7 @@
 // TODO need to refactor this to different files and 
 // figure out a way to link it for the GPU build 
 template<typename T>
-__global__ void mm(T* a, T* b, T* c, T width, T second) {
+__global__ void mm(T* a, T* b, T* c, int width, int second) {
 
     int x = blockIdx.x; // block id
     int y = threadIdx.x; // thread id

@@ -17,14 +17,15 @@ int main() {
     Dense<float> fc3(20,1, NO_ACTIVATION);
 
     // Initialise Optimiser
-    SGD<float> sgd(0.0001);
+    SGD<float> sgd(0.00001);
     
     // Train
-
-    float loss_till_now = 0;
-    for(int j = 0;j<1;j++) {
+    int num_examples = 200;
+    for(int j = 0;j<100;j++) {
         int ld = 0;
-        for(auto i: train_images) {
+        float loss_till_now = 0;
+        for(auto kl = 0; kl< num_examples;kl++) {
+            auto i = train_images[kl];
             // Get data
             auto inp = new Tensor<float>({i}, {1,784});
             auto tar = new Tensor<float>({(float)train_labels[ld]}, {1,1});
@@ -47,13 +48,11 @@ int main() {
             sgd.minimise(finalLoss);
             loss_till_now += finalLoss->val.val[0];
 
-            if(ld%2000 == 0) {
-                cout<<loss_till_now/ld<<endl;
-            }
-
-            ld++;
-        
+            ld++;        
         }
+
+        cout<<loss_till_now/num_examples<<endl;
+
     }
 
     // Inference
