@@ -208,10 +208,10 @@ void matrixMultiplyCorrectness() {
     mmCpu(A,B,size,true);
 }
 
-// int main() {
-//     // vectorAdditionSpeedTest();
-//     matrixMultiplySpeedTest();
-//     matrixMultiplyCorrectness();
-//     return 1; 
-// }
+int main() {
+    // vectorAdditionSpeedTest();
+    matrixMultiplySpeedTest();
+    matrixMultiplyCorrectness();
+    return 1; 
+}
 

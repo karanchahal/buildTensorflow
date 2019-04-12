@@ -10,7 +10,7 @@ test: tests/main.cpp
 gpuTest: gpu/cudaOps.cu
 	nvcc -std=c++14 -I . gpu/cudaOps.cu -o build/cuda.o
 	./build/cuda.o
-gpu: main.cu
-	nvcc -std=c++14 -I . main.cu -o build/cuda.o
+gpus: main.cu
+	nvcc -std=c++11 -I . main.cu -o build/cuda.o
 	./build/cuda.o
 	

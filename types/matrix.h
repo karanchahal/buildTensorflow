@@ -111,7 +111,11 @@ struct Matrix{
             const Matrix<T> &rhs,
             int start, int startRes) {
 
-
+        if(gpu) {
+            dotGPU<T>(res,this,rhs,start,startRes);
+            return;
+        }
+        
         int row1 = this->shape[this->shape.size()-2];
         int col1 = this->shape[this->shape.size()-1];
         int row2 = rhs.shape[rhs.shape.size()-2];
