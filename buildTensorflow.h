@@ -1,7 +1,7 @@
 #ifndef __PROJECT_INCLUDED__   
 #define __PROJECT_INCLUDED__ 
-// Check whether GPU is accessible or not
 
+// Check whether GPU is accessible or not
 #ifndef __GPU_INCLUDED__   
 #define __GPU_INCLUDED__ 
 bool gpu = false;

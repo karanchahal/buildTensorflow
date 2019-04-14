@@ -7,3 +7,8 @@ cd /usr/src/gtest
 sudo cmake CMakeLists.txt
 sudo make
 sudo cp *.a /usr/lib
+
+# Getting Datasets
+
+# MNIST
+git clone https://github.com/wichtounet/mnist.git 

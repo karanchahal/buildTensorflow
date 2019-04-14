@@ -1,10 +1,11 @@
 #include "buildTensorflow.h"
-#include "mnist/include/mnist/mnist_reader.hpp"
+#include "mnist/include/mnist/mnist_reader_less.hpp"
+
 // Example of training a network on the buildTensorflow framework.
 int main() {
 
     // Load MNIST Dataset
-    auto dataset = mnist::read_dataset<std::vector, std::vector, float, uint8_t>();
+    auto dataset = mnist::read_dataset<float, uint8_t>();
     auto train_images = dataset.training_images;
     auto train_labels = dataset.training_labels;
     auto test_images = dataset.test_images;
@@ -22,7 +23,7 @@ int main() {
     
     // Train
     int num_examples = 2;
-    for(int j = 0;j<2000;j++) {
+    for(int j = 0;j<4000;j++) {
         int ld = 0;
         float loss_till_now = 0;
         for(auto kl = 0; kl< num_examples;kl++) {
