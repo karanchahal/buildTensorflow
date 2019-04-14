@@ -24,6 +24,13 @@ namespace tensorOps {
         return add(one,two);
     }
 
+    // Addition with Scalar
+    template<typename T>
+    Tensor<T>* add(Tensor<T>* one, int axis) {
+        one->frontOp = new AddOperation<T>(one, axis);
+        return one->frontOp->forward();
+    }
+
     // Divide 
     template<typename T>
     Tensor<T>* divide(Tensor<T>* one, Tensor<T>* two) {

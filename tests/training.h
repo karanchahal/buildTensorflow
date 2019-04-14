@@ -32,10 +32,7 @@ TEST(TRAINING_TEST, Celsius2FahrenheitTest) {
             auto out = fc1.forward(inp);
 
             // Get Loss
-            auto l = new Tensor<float>({-1}, {1,1});
-            auto k = tensorOps::multiply(l,tar);
-            auto loss = tensorOps::add(out,k); // error in loss
-            auto finalLoss = tensorOps::power(loss,(float)2);
+            auto finalLoss = losses::mse(out, tar);
 
             // Compute backProp
             finalLoss->backward();

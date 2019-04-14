@@ -15,5 +15,6 @@ bool gpu = false;
 #include "layers/dense.h"
 #include "optims/sgd.h"
 #include "data/celsius2fahrenheit.h"
+#include "losses/losses.h"
 
 #endif

@@ -14,9 +14,16 @@
 */
 template <typename T>
 void AddOperation<T>::backward(Matrix<T> grad) {
-    
-    this->t1->backward(grad);
-    this->t2->backward(grad);
+    if(this->axis == -1) {
+        this->t1->backward(grad);
+        this->t2->backward(grad);
+    } else {
+        int expansion = this->t1->val.shape[0];
+        auto expandedGrad = matrixOps::expandAlong(grad, axis, expansion);
+        cout<<expandedGrad<<endl;
+        this->t1->backward(expandedGrad);
+    }
+
 }
 
 /* 
@@ -38,8 +45,15 @@ Tensor<T> AddOperation<T>::forwardDeprecated() {
 */
 template <typename T>
 Tensor<T>* AddOperation<T>::forward() {
-    this->t3 = new Tensor<T>(this->t1->val + this->t2->val, this);
+    if(axis == -1) {
+        this->t3 = new Tensor<T>(this->t1->val + this->t2->val, this);
+    } else {
+        Matrix<T> res = this->t1->val.addAxis(axis);
+        this->t3 = new Tensor<T>(res,this);
+    }
+
     return this->t3;
+
 }
 
 #endif

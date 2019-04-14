@@ -21,6 +21,18 @@ namespace matrixOps {
     Matrix<T> power(Matrix<T> &a, T pow) {
         return a^pow;
     }
+
+    template<typename T>
+    Matrix<T> expandAlong(Matrix<T> &grad, int axis, int expansion) {
+        vector<T> val;
+        val.reserve(grad.val.size()*expansion);
+        for(int i = 0;i < expansion;i++) {
+            val.insert(val.end(), grad.val.begin(), grad.val.end());
+        }
+        auto s = grad.shape;
+        s.insert(s.begin(),expansion);
+        return Matrix<T>(val, s);
+    }
 };
 
 // Overloaded function for printing matrix: cout<<matrix<<endl;

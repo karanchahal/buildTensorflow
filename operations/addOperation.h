@@ -12,9 +12,16 @@ template <typename T>
 class AddOperation : public Operation<T> {
     public:
     
+    int axis = -1;
+
     AddOperation(Tensor<T> *t1, Tensor<T> *t2) {
         this->t1 = t1;
         this->t2 = t2;
+    }
+
+    AddOperation(Tensor<T> *t1, int axis) {
+        this->t1 = t1;
+        this->axis = axis;
     }
 
     void backward(Matrix<T> grad);

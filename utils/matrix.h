@@ -26,8 +26,8 @@ namespace utils {
     }
 
     template< typename T>
-    Matrix<T> zerosLike(const Matrix<T> &m) {
-        vector<T> val(m.val.size(),0);
+    Matrix<T> onesLike(const Matrix<T> &m) {
+        vector<T> val(m.val.size(),1);
         return Matrix<T>(val,m.shape);
     }
 }

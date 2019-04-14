@@ -1,10 +1,8 @@
 #include "buildTensorflow.h"
 #include "mnist/include/mnist/mnist_reader_less.hpp"
 
-// Example of training a network on the buildTensorflow framework.
-int main() {
-
-    // Load MNIST Dataset
+void mnistTest() {
+     // Load MNIST Dataset
     auto dataset = mnist::read_dataset<float, uint8_t>();
     auto train_images = dataset.training_images;
     auto train_labels = dataset.training_labels;
@@ -39,11 +37,10 @@ int main() {
             auto temp2 = fc2.forward(temp);
             auto temp3 = fc3.forward(temp2);
             auto out = fc4.forward(temp3);
+            
             // Get Loss
-            auto l = new Tensor<float>({-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}, {1,10});
-            auto k = tensorOps::multiply(l,tar);
-            auto loss = tensorOps::add(out,k); // error in loss
-            auto finalLoss = tensorOps::power(loss,(float)2);
+            auto finalLoss = losses::mse(out, tar);
+
             // Compute backProp
             finalLoss->backward();
 
@@ -75,10 +72,16 @@ int main() {
     // cout<<ans->val<<endl;
     cout<<(float)train_labels[0]<<endl;
 
-    // ASSERT_TRUE(testUtils::isMatrixEqual(ans->val,res));
+}
 
-    // // Clean up
-    // delete ans;
-    
+
+// Example of training a network on the buildTensorflow framework.
+int main() {
+
+   auto a = Matrix<float>({1,2,3,4}, {2,2});
+   auto t = new Tensor<float>(a);
+   auto ans = tensorOps::add(t,0);
+   ans->backward();
+   cout<<ans->val<<endl;
 }
 

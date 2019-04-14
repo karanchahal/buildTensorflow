@@ -318,6 +318,27 @@ struct Matrix{
         return Matrix(res, resShape);
     }
 
+     /*
+        Add matrix along some axis and return the result
+    */
+    Matrix<T> addAxis(int axis) {
+
+        int p = 1;
+        vector<int> s;
+        for(int i= axis+1;i< this->shape.size();i++) {
+            s.push_back(this->shape[i]);
+        }
+        vector<T> res(elemsEncounteredPerDim[axis], 0);
+
+        for(int i = 0; i < this->shape[axis]; i++) {
+            for(int j = 0; j < elemsEncounteredPerDim[axis]; j++) {
+                res[j] += this->val[i*elemsEncounteredPerDim[axis] + j];
+            }
+        }
+        
+        return Matrix<T>(res, s);
+    }
+
     // Delete matrix
     ~Matrix() {
         
