@@ -3,7 +3,7 @@
     the multiply operation.
 */
 
-#include "operations/multiplyOperation.h"
+#include "operations/multiply/multiplyOperation.h"
 
 #ifndef __OP_IMPL_MULTIPLY_INCLUDED__
 #define __OP_IMPL_MULTIPLY_INCLUDED__

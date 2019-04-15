@@ -3,7 +3,7 @@
     the sigmoid operation.
 */
 
-#include "operations/sigmoidOperation.h"
+#include "operations/sigmoid/sigmoidOperation.h"
 
 #ifndef __OP_IMPL_SIG_INCLUDED__
 #define __OP_IMPL_SIG_INCLUDED__

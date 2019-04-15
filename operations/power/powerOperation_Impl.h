@@ -3,7 +3,7 @@
     the power operation.
 */
 
-#include "operations/powerOperation.h"
+#include "operations/power/powerOperation.h"
 
 #ifndef __OP_IMPL_POWER_INCLUDED__
 #define __OP_IMPL_POWER_INCLUDED__

@@ -6,13 +6,14 @@
 #ifndef __OP_IMPL_INCLUDED__   
 #define __OP_IMPL_INCLUDED__  
 
-#include "operations/multiplyOperation_Impl.h"
-#include "operations/addOperation_Impl.h"
-#include "operations/divideOperation_Impl.h"
-#include "operations/dotOperation_Impl.h"
-#include "operations/exponentOperation_Impl.h"
-#include "operations/sigmoidOperation_Impl.h"
-#include "operations/powerOperation_Impl.h"
+#include "operations/multiply/multiplyOperation_Impl.h"
+#include "operations/add/addOperation_Impl.h"
+#include "operations/divide/divideOperation_Impl.h"
+#include "operations/dot/dotOperation_Impl.h"
+#include "operations/exponent/exponentOperation_Impl.h"
+#include "operations/sigmoid/sigmoidOperation_Impl.h"
+#include "operations/power/powerOperation_Impl.h"
+#include "operations/softmax/softmaxOperation_Impl.h"
 
 #endif
 

@@ -3,7 +3,7 @@
     the add operation.
 */
 
-#include "operations/addOperation.h"
+#include "operations/add/addOperation.h"
 
 #ifndef __OP_ADD_IMPL_INCLUDED__   
 #define __OP_ADD_IMPL_INCLUDED__  

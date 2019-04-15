@@ -3,7 +3,7 @@ This file contains the implementation of the forward and backward pass of
 the divide operation.
 */
 
-#include "operations/divideOperation.h"
+#include "operations/divide/divideOperation.h"
 
 #ifndef __OP_DIV_IMPL_INCLUDED__   
 #define __OP_DIV_IMPL_INCLUDED__  

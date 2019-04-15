@@ -4,6 +4,15 @@
 
 #include <types/tensor.h>
 
+#include "operations/add/addOperation.h"
+#include "operations/multiply/multiplyOperation.h"
+#include "operations/divide/divideOperation.h"
+#include "operations/exponent/exponentOperation.h"
+#include "operations/dot/dotOperation.h"
+#include "operations/sigmoid/sigmoidOperation.h"
+#include "operations/power/powerOperation.h"
+#include "operations/softmax/softmaxoperation.h"
+
 #ifndef __TENSOR_OPS_INCLUDED__   
 #define __TENSOR_OPS_INCLUDED__  
 
@@ -87,6 +96,13 @@ namespace tensorOps {
     template<typename T>
     Tensor<T>* power(Tensor<T>* one, T t) {
         one->frontOp = new PowerOperation<T>(one, t);
+        return one->frontOp->forward();
+    }
+
+    // Softmax
+    template<typename T>
+    Tensor<T>* softmax(Tensor<T>* one) {
+        one->frontOp = new SoftmaxOperation<T>(one);
         return one->frontOp->forward();
     }
 

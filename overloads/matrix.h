@@ -30,8 +30,15 @@ namespace matrixOps {
             val.insert(val.end(), grad.val.begin(), grad.val.end());
         }
         auto s = grad.shape;
-        s.insert(s.begin(),expansion);
+        s.insert(s.begin() + axis,expansion);
         return Matrix<T>(val, s);
+    }
+
+    template<typename T>
+    Matrix<T> softmax(Matrix<T> &a) {
+        auto e = a.exp();
+        auto sum = e.addAxis(0);
+        return e/sum;
     }
 };
 

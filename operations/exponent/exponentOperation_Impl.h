@@ -3,7 +3,7 @@
     the exponent operation.
 */
 
-#include "operations/exponentOperation.h"
+#include "operations/exponent/exponentOperation.h"
 
 #ifndef __OP_EXP_IMPL_INCLUDED__   
 #define __OP_EXP_IMPL_INCLUDED__   

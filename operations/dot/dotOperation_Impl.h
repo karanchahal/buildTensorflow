@@ -3,7 +3,7 @@
     the dot operation.
 */
 
-#include "operations/dotOperation.h"
+#include "operations/dot/dotOperation.h"
 #include "utils/matrix.h"
 
 #ifndef __OP_DOT_IMPL_INCLUDED__  

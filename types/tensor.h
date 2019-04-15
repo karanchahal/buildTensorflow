@@ -19,13 +19,6 @@
 */
 
 #include "operations/operation.h"
-#include "operations/addOperation.h"
-#include "operations/multiplyOperation.h"
-#include "operations/divideOperation.h"
-#include "operations/exponentOperation.h"
-#include "operations/dotOperation.h"
-#include "operations/sigmoidOperation.h"
-#include "operations/powerOperation.h"
 
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   
@@ -143,81 +136,6 @@ class Tensor {
         assert(val.shape.size() != 0 && "The value of matrix cannot be uninitialised during initialisng zeros in tensor's gradient");
         vector<T> g(val.val.size(), 0);
         this->grad = Matrix<T>(g, val.shape);
-    }
-
-    /*
-        From here on, we overload the operators like +, / and * to define what happens when
-        we we add, divide and multiply tensors. We also support other operations like dot 
-        product (used heavily in fully connected, convolution and recurrent networks).
-        We also support some operations for our actiavtion functions like exponent, power and
-        maybe more.
-    */
-
-    /*
-        Elementwise Multiplication between 2 tensors
-    */
-    Tensor<T> operator * (Tensor<T> &two) { 
-        // TODO: add assertions
-        this->frontOp = new MultiplyOperation<T>(this, &two);
-        two.frontOp = this->frontOp;
-        return this->frontOp->forwardDeprecated();
-    }
-
-    Tensor<T> operator * (const Tensor<T> &two) { 
-        // TODO: add assertions
-        Tensor<T>* temp = new Tensor<T>(&two);
-        return (*this)*(*temp);
-    }
-
-    /*
-        Elementwise Addition between 2 tensors
-    */
-    Tensor<T> operator + (Tensor<T> &two) { 
-        // TODO: add assertions
-        this->frontOp = new AddOperation<T>(this, &two);
-        two.frontOp = this->frontOp;
-        return this->frontOp->forwardDeprecated();
-    }
-
-    Tensor<T> operator + (const Tensor<T> &two) { 
-        // TODO: add assertions
-        Tensor<T>* temp = new Tensor<T>(&two);
-        return (*this)+(*temp);
-    }
-
-    /*
-        Elementwise Division between 2 tensors
-    */
-    Tensor<T> operator / (Tensor<T> &two) { 
-        // TODO: add assertions
-        this->frontOp = new DivideOperation<T>(this, &two);
-        two.frontOp = this->frontOp;
-        return this->frontOp->forwardDeprecated();
-    }
-
-    Tensor<T> operator / (const Tensor<T> &two) { 
-        // TODO: add assertions
-        Tensor<T>* temp = new Tensor<T>(&two);
-        return (*this)/(*temp);
-    }
-
-    /*
-        Matrix Multiplication or Dot Product between 2 tensors
-    */
-    Tensor<T> dot(Tensor<T> &two) { 
-        // TODO: add assertions
-        this->frontOp = new DotOperation<T>(this, &two);
-        two.frontOp = this->frontOp;
-        return this->frontOp->forwardDeprecated();
-    }
-
-    /*
-        Elementwise Exponent Calculation of tensor
-    */
-    Tensor<T> exp() { 
-        // TODO: add assertions
-        this->frontOp = new ExponentOperation<T>(this);
-        return this->frontOp->forwardDeprecated();
     }
 
     /* 

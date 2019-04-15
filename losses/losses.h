@@ -38,11 +38,33 @@ namespace losses {
 
         Here we assume that gt is a one hot vector signifying 0 for negative class and 1 for positive class.
         Also, the value of y will be between 1 and zero. Most liklely it comes out of a sigmoid or a softmax distribution.
-        
+        loss[i] = -log(softmax(x[i])) = -x[i] + log(sum(x)) 
     */
     template<typename T>
     Tensor<T>* binary_cross_entropy(Tensor<T>* y, Tensor<T>* ground_truth) {
-        // This will work well for classification problems
+        // so assuming you are coming from a tensor which has undergone softmax
+        probs = tensorOps::softmax(y);
+        // so x is prob across mini batch
+
+        // ground truht is one hot vector along mini batch
+        auto z = probs*ground_truth;
+
+        auto z2 = tensorOps::add(z,1);
+
+        auto z3 = log(z2);
+
+        auto z4 = tensorOps::multiply(z3, -1);
+
+        if(average)
+
+        auto z5 = tensorOps::average(z4,0);
+
+        return z5;
+        // muluitply ground truth with probs
+        // add all of the values along axis
+        // then log that value
+        // then negative that value
+        // return tensor then
     }
 }
 

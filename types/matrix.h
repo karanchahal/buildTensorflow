@@ -8,6 +8,8 @@
 #ifndef __MATRIX_FLOAT_INCLUDED__   
 #define __MATRIX_FLOAT_INCLUDED__  
 
+enum OperationType {ADD, DIV, MUL}; 
+
 template<typename T>
 struct Matrix{
     private:
@@ -240,12 +242,13 @@ struct Matrix{
 
     // Performs elementwise addition
     Matrix<T> operator + (const Matrix<T> &rhs) {
-        assert("Shapes aren't compatible for addition !" &&
-         verifyShapeForElementwiseOperation(this->shape, rhs.shape));
+        // assert("Shapes aren't compatible for addition !" &&
+        //  verifyShapeForElementwiseOperation(this->shape, rhs.shape));
 
-        auto res = this->val + rhs.val;
-        auto resShape = this->shape;
-        return Matrix(res, resShape);
+        // auto res = this->val + rhs.val;
+        // auto resShape = this->shape;
+        // return Matrix(res, resShape);
+        return operation(rhs, ADD);
     }
 
     // Performs elementwise subtraction
@@ -260,12 +263,7 @@ struct Matrix{
 
     // Performs elementwise division
     Matrix<T> operator / (const Matrix<T> &rhs) {
-        assert("Shapes aren't compatible for division !" && 
-        verifyShapeForElementwiseOperation(this->shape, rhs.shape));
-
-        auto res = this->val / rhs.val;
-        auto resShape = this->shape;
-        return Matrix(res, resShape);
+        return operation(rhs, DIV);
     }
 
     // Performs power operation with scalar
@@ -310,15 +308,81 @@ struct Matrix{
    
     // Performs elementwise multiplication
     Matrix<T> operator * (const Matrix<T> &rhs) {
-        assert("Shapes aren't compatible for multiplication !" &&
-         verifyShapeForElementwiseOperation(this->shape, rhs.shape));
+        // assert("Shapes aren't compatible for multiplication !" &&
+        //  verifyShapeForElementwiseOperation(this->shape, rhs.shape));
 
-        auto res = this->val * rhs.val;
-        auto resShape = this->shape;
-        return Matrix(res, resShape);
+        // auto res = this->val * rhs.val;
+        // auto resShape = this->shape;
+        // return Matrix(res, resShape);
+
+        return operation(rhs, MUL);
     }
 
-     /*
+    Matrix<T> operation(const Matrix<T> &m, OperationType opType) {
+
+        int i = this->shape.size()-1;
+        int j = m.shape.size() -1;
+        bool allGood = false;
+
+        while(true) {
+
+            if(j < 0) {
+                allGood = true;
+                break;
+            }
+
+            if(i < 0) {
+                allGood = false;
+                break;
+            }
+
+            if(this->shape[i] != m.shape[j]) {
+                allGood = false;
+                break;
+            }
+
+            i--;
+            j--;
+        }
+
+        if(allGood) {
+            vector<T> res;
+            vector<int> s = this->shape;
+            // j++; // index where the two matrices are equal
+            
+            int n = this->val.size();
+            if(i != -1) {
+                n = elemsEncounteredPerDim[i];
+            } 
+        
+            int start = 0;
+            while(start < this->val.size()) {
+            
+                for(int i =0; i< n;i++) {
+
+                    switch(opType) {
+                        case ADD: res.push_back(this->val[start+i] + m.val[i]);
+                            break;
+                        case MUL: res.push_back(this->val[start+i] * m.val[i]);
+                            break;
+                        case DIV: res.push_back(this->val[start+i] / m.val[i]);
+                            break;
+                    }
+
+                }
+
+                start += n;
+
+            }
+
+            return Matrix<T>(res,s);
+
+        } else {
+            assert("Matrices are not compatible for operation with broadcasting");
+        }
+    }
+
+    /*
         Add matrix along some axis and return the result
     */
     Matrix<T> addAxis(int axis) {
