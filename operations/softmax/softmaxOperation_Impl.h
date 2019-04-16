@@ -39,7 +39,7 @@ Tensor<T> SoftmaxOperation<T>::forwardDeprecated() {
 */
 template <typename T>
 Tensor<T>* SoftmaxOperation<T>::forward() {
-    auto val = matrixOps::softmax(this->t1->val);
+    auto val = matrixOps::softmax(this->t1->val, this->axis);
     this->t3 = new Tensor<T>(val,this);
     return this->t3;
 }

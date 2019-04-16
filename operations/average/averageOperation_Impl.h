@@ -3,26 +3,21 @@
     the add operation.
 */
 
-#include "operations/add/addOperation.h"
+#include "operations/average/averageOperation.h"
 
-#ifndef __OP_ADD_IMPL_INCLUDED__   
-#define __OP_ADD_IMPL_INCLUDED__  
+#ifndef __OP_AVG_IMPL_INCLUDED__   
+#define __OP_AVG_IMPL_INCLUDED__  
 
 /* 
     Backpropogation of the addition operation. The addition operation distributes the gradient. So it
     effectively just transfers the gradient coming in to the various inpuot sources.
 */
 template <typename T>
-void AddOperation<T>::backward(Matrix<T> grad) {
-    if(this->axis == -1) {
-        this->t1->backward(grad);
-        this->t2->backward(grad);
-    } else {
-        int expansion = this->t1->val.shape[axis];
-        auto expandedGrad = matrixOps::expandAlong(grad, axis, expansion);
-        cout<<expandedGrad<<endl;
-        this->t1->backward(expandedGrad);
-    }
+void AverageOperation<T>::backward(Matrix<T> grad) {
+  
+    int expansion = this->t1->val.shape[axis];
+    auto expandedGrad = matrixOps::expandAlong(grad, axis, expansion);
+    this->t1->backward(expandedGrad/(T)expansion);
 
 }
 
@@ -35,7 +30,7 @@ void AddOperation<T>::backward(Matrix<T> grad) {
     2. Avoid weird allocation issues
 */
 template <typename T>
-Tensor<T> AddOperation<T>::forwardDeprecated() {
+Tensor<T> AverageOperation<T>::forwardDeprecated() {
     this->t3 = new Tensor<T>(this->t1->val + this->t2->val, this);
     return *this->t3;
 }
@@ -44,13 +39,10 @@ Tensor<T> AddOperation<T>::forwardDeprecated() {
     Forward Propogation of the operation. Return pointer to the tensor.
 */
 template <typename T>
-Tensor<T>* AddOperation<T>::forward() {
-    if(axis == -1) {
-        this->t3 = new Tensor<T>(this->t1->val + this->t2->val, this);
-    } else {
-        Matrix<T> res = this->t1->val.addAxis(axis);
-        this->t3 = new Tensor<T>(res,this);
-    }
+Tensor<T>* AverageOperation<T>::forward() {
+   
+    Matrix<T> res = this->t1->val.addAxis(axis) / (T)this->t1->val.shape[axis];
+    this->t3 = new Tensor<T>(res,this);
 
     return this->t3;
 

@@ -11,9 +11,11 @@
 #include "operations/divide/divideOperation_Impl.h"
 #include "operations/dot/dotOperation_Impl.h"
 #include "operations/exponent/exponentOperation_Impl.h"
+#include "operations/log/logOperation_Impl.h"
 #include "operations/sigmoid/sigmoidOperation_Impl.h"
 #include "operations/power/powerOperation_Impl.h"
 #include "operations/softmax/softmaxOperation_Impl.h"
+#include "operations/average/averageOperation_Impl.h"
 
 #endif
 

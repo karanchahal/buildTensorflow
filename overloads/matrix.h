@@ -35,10 +35,14 @@ namespace matrixOps {
     }
 
     template<typename T>
-    Matrix<T> softmax(Matrix<T> &a) {
+    Matrix<T> softmax(Matrix<T> &a, int axis) {
         auto e = a.exp();
-        auto sum = e.addAxis(0);
-        return e/sum;
+        auto sum = e.addAxis(axis);
+        sum.shape.push_back(1);
+        e.shape.push_back(1);
+        auto ans = e/sum;
+        ans.shape.pop_back();
+        return ans;
     }
 };
 
@@ -53,6 +57,14 @@ ostream & operator << (ostream &out, Matrix<T> &m) {
 template<typename T>
 Matrix<T> operator / (const T t, const Matrix<T> &rhs) {
     auto res =  t/rhs.val;
+    auto resShape = rhs.shape;
+    return Matrix<T>(res, resShape);
+}
+
+// Divison with a scalar as divident
+template<typename T>
+Matrix<T> operator / (const Matrix<T> &rhs, const T t) {
+    auto res =  rhs.val/t;
     auto resShape = rhs.shape;
     return Matrix<T>(res, resShape);
 }

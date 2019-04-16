@@ -11,10 +11,14 @@
 template <typename T>
 class SoftmaxOperation : public Operation<T> {
     public:
-   
-    SoftmaxOperation(Tensor<T> *t1) {
+
+    int axis;
+
+    SoftmaxOperation(Tensor<T> *t1, int axis) {
         this->t1 = t1;
+        this->axis = axis;
     }
+    
     void backward(Matrix<T> grad);
 
     Tensor<T> forwardDeprecated();

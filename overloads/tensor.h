@@ -8,10 +8,13 @@
 #include "operations/multiply/multiplyOperation.h"
 #include "operations/divide/divideOperation.h"
 #include "operations/exponent/exponentOperation.h"
+#include "operations/log/logOperation.h"
 #include "operations/dot/dotOperation.h"
 #include "operations/sigmoid/sigmoidOperation.h"
 #include "operations/power/powerOperation.h"
 #include "operations/softmax/softmaxoperation.h"
+#include "operations/average/averageOperation.h"
+
 
 #ifndef __TENSOR_OPS_INCLUDED__   
 #define __TENSOR_OPS_INCLUDED__  
@@ -85,6 +88,14 @@ namespace tensorOps {
         return one->frontOp->forward();
     }
 
+    // Log 
+    template<typename T>
+    Tensor<T>* log(Tensor<T>* one) {
+        one->frontOp = new LogOperation<T>(one);
+        return one->frontOp->forward();
+    }
+
+
     // Sigmoid 
     template<typename T>
     Tensor<T>* sigmoid(Tensor<T>* one) {
@@ -101,10 +112,17 @@ namespace tensorOps {
 
     // Softmax
     template<typename T>
-    Tensor<T>* softmax(Tensor<T>* one) {
-        one->frontOp = new SoftmaxOperation<T>(one);
+    Tensor<T>* softmax(Tensor<T>* one, int axis) {
+        one->frontOp = new SoftmaxOperation<T>(one, axis);
         return one->frontOp->forward();
     }
+    // Average
+    template<typename T>
+    Tensor<T>* average(Tensor<T>* one, int axis) {
+        one->frontOp = new AverageOperation<T>(one, axis);
+        return one->frontOp->forward();
+    }
+
 
 };
 

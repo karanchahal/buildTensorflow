@@ -108,6 +108,18 @@ vector<T> operator / (T a, const vector<T> &b) {
     return arr;
 }
 
+// Scalar divide
+template<typename T>
+vector<T> operator / (const vector<T> &b, T a) {
+    vector<T> arr;
+    for(int i = 0;i<b.size();i++) {
+        T prod = b[i]/a;
+        arr.push_back(prod);
+    }
+    return arr;
+}
+
+
 // Power Operation
 template<typename T>
 vector<T> operator ^ (vector<T> &a, const T b) {
@@ -126,6 +138,18 @@ vector<T> exponent(const vector<T> &a) {
     vector<T> arr;
     for(int i = 0;i<a.size();i++) {
         T prod = exp(a[i]);
+        arr.push_back(prod);
+    }
+    return arr;
+}
+
+// Log Operation
+template<typename T>
+vector<T> logOp(const vector<T> &a) {
+
+    vector<T> arr;
+    for(int i = 0;i<a.size();i++) {
+        T prod = log(a[i]);
         arr.push_back(prod);
     }
     return arr;

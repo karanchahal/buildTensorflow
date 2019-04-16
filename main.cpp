@@ -78,12 +78,24 @@ void mnistTest() {
 // Example of training a network on the buildTensorflow framework.
 int main() {
 
-   auto a = new Tensor<float>({0.9, 0.1}, {2,1});
-   auto c = tensorOps::softmax(a);
+//    auto a = Matrix<float>({1,2,3,4,5,6}, {2,3});
+   /*
+     [
+        [1,2,3],
+        [4,5,6]
+     ]
+   */
+  
+//    auto b = a.addAxis(0);
+//    auto c = matrixOps::expandAlong(b, 0, 2);
 
-   cout<<c->val<<endl;
+    // auto a  = new Tensor<float>({1, 2, 3, 4}, {2,2});
+    // auto gt = new Tensor<float>({1, 0, 0, 1 }, {2,2});
 
-   c->backward();
+    // auto ans  = losses::binary_cross_entropy(a,gt);
 
-   cout<<a->grad<<endl;
+    auto a = Matrix<float>({1,2,3,4}, {2,2});
+    auto b = matrixOps::softmax(a,1);
+    cout<<b<<endl;
+    // cout<<ans->val<<endl;
 }

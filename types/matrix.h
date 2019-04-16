@@ -280,6 +280,13 @@ struct Matrix{
         return Matrix(res, resShape);
     }
 
+    // Perfroms log operation on each value of matrix
+    Matrix<T> log() {
+        auto res = logOp(this->val);
+        auto resShape = this->shape;
+        return Matrix(res, resShape);
+    }
+
     // Dot Product between 2 matrices. Check matmul for indepth description.
     Matrix<T> dot(const Matrix<T> &rhs) {
         assert("Shapes aren't compatible for dot product !" && 
@@ -378,7 +385,7 @@ struct Matrix{
             return Matrix<T>(res,s);
 
         } else {
-            assert("Matrices are not compatible for operation with broadcasting");
+            assert(false && "Matrices are not compatible for operation with broadcasting");
         }
     }
 
@@ -387,20 +394,62 @@ struct Matrix{
     */
     Matrix<T> addAxis(int axis) {
 
-        int p = 1;
-        vector<int> s;
-        for(int i= axis+1;i< this->shape.size();i++) {
-            s.push_back(this->shape[i]);
-        }
-        vector<T> res(elemsEncounteredPerDim[axis], 0);
+        vector<T> res(this->val.size()/this->shape[axis],0);
 
-        for(int i = 0; i < this->shape[axis]; i++) {
-            for(int j = 0; j < elemsEncounteredPerDim[axis]; j++) {
-                res[j] += this->val[i*elemsEncounteredPerDim[axis] + j];
-            }
+        vector<int> resShape = this->shape;
+        resShape.erase(resShape.begin()+axis);
+
+        auto resElems = computeShapes(resShape);
+        vector<int> stack;
+
+        addAxisUtil(res, stack, resElems, 0, axis);
+
+        // Case for when we add along a matrix of shape of just one dimension
+        if(resShape.empty()) {
+            resShape.push_back(1);
         }
-        
-        return Matrix<T>(res, s);
+
+        return Matrix<T>(res, resShape);
+
+    }
+
+    void addAxisUtil(vector<T> &res,
+                    vector<int> &stack,
+                    const vector<int> &resElems,
+                    int dim, int axis) {
+        /* 
+            Case when we've reached the same dimension as to when
+            we need to add up all elemnts across this axis
+        */
+        if(dim == axis) {
+            int p = 0;
+            int s = 0;
+            for(int i = 0;i < stack.size();i++) {
+                p += elemsEncounteredPerDim[i]*stack[i];
+                s += resElems[i]*stack[i];
+            }
+            
+            /*
+                so p is start of input vector
+                and so is start of resultant vector.
+
+                Add all elements across axis.
+            */
+            for(int j = 0; j < this->shape[axis];j++) {
+                for(int i = 0; i < this->elemsEncounteredPerDim[axis];i++) {
+                    res[s+i] += this->val[p+i];
+                }
+                p += this->elemsEncounteredPerDim[axis];
+            }
+
+            return;
+        }
+        // Getting the various input positions to do our add Operation.
+        for(int i = 0;i < this->shape.at(dim);i++) {
+            stack.push_back(i); // Calculates how many elements have been processed, to get pointer to right location in val and pushes to stack
+            addAxisUtil(res,stack,resElems,dim+1,axis);
+            stack.pop_back(); // Pops out of stack
+        }
     }
 
     // Delete matrix
