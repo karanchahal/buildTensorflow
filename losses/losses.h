@@ -44,16 +44,10 @@ namespace losses {
     Tensor<T>* binary_cross_entropy(Tensor<T>* y, Tensor<T>* ground_truth) {
 
         auto probs = tensorOps::softmax(y,1);
-        cout<<probs->val<<endl;
-        
         auto z = tensorOps::multiply(probs, ground_truth);
-
         auto z2 = tensorOps::add(z,1);
-        cout<<z2->val<<endl;
         auto z3 = tensorOps::log(z2);
-        cout<<z3->val<<endl;
         auto z4 = tensorOps::multiply((T)-1, z3);
-
         auto z5 = tensorOps::average(z4,0);
 
         return z5;

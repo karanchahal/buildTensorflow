@@ -78,24 +78,22 @@ void mnistTest() {
 // Example of training a network on the buildTensorflow framework.
 int main() {
 
-//    auto a = Matrix<float>({1,2,3,4,5,6}, {2,3});
-   /*
-     [
-        [1,2,3],
-        [4,5,6]
-     ]
-   */
-  
-//    auto b = a.addAxis(0);
-//    auto c = matrixOps::expandAlong(b, 0, 2);
+    auto a  = new Tensor<float>({1, 2, 3, 4}, {2,2});
+    auto gt = new Tensor<float>({1, 0, 0, 1 }, {2,2});
 
-    // auto a  = new Tensor<float>({1, 2, 3, 4}, {2,2});
-    // auto gt = new Tensor<float>({1, 0, 0, 1 }, {2,2});
+    auto ans  = losses::binary_cross_entropy(a,gt);
+    cout<<ans->val<<endl;
+    // // so what we need to do is broadcasting support
+    // b should become {3,3,2,2}, {2,2}
 
-    // auto ans  = losses::binary_cross_entropy(a,gt);
+    // so remove any 1's from second matrix shape
+    // check if shape is compatible that means, 
+    // run it through front to back, it is fine if there is no shape mismatch
+    // either shape has ended
 
-    auto a = Matrix<float>({1,2,3,4}, {2,2});
-    auto b = matrixOps::softmax(a,1);
-    cout<<b<<endl;
-    // cout<<ans->val<<endl;
+    // once we have done this
+
+    // then "copy" elements over to new matrix that is of same size as lhs
+
+    // start from 
 }

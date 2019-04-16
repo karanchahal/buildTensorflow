@@ -325,20 +325,16 @@ struct Matrix{
         return operation(rhs, MUL);
     }
 
+
     Matrix<T> operation(const Matrix<T> &m, OperationType opType) {
 
-        int i = this->shape.size()-1;
-        int j = m.shape.size() -1;
-        bool allGood = false;
+        int i = 0;
+        int j = 0;
+        bool allGood = true;
 
-        while(true) {
+        while(i < this->shape.size() && j < m.shape.size()) {
 
-            if(j < 0) {
-                allGood = true;
-                break;
-            }
-
-            if(i < 0) {
+            if(i >= this->shape.size()) {
                 allGood = false;
                 break;
             }
@@ -348,46 +344,77 @@ struct Matrix{
                 break;
             }
 
-            i--;
-            j--;
+            i++;
+            j++;
         }
 
         if(allGood) {
-            vector<T> res;
-            vector<int> s = this->shape;
-            // j++; // index where the two matrices are equal
+
+            vector<T> temp(this->val.size(),0);
+
+            vector<int> resShape = this->shape;
             
-            int n = this->val.size();
-            if(i != -1) {
-                n = elemsEncounteredPerDim[i];
-            } 
-        
-            int start = 0;
-            while(start < this->val.size()) {
+            auto resElems = computeShapes(m.shape);
+            vector<int> stack;
+
+            operationUtil(temp, m.val, stack, resElems, 0);
             
-                for(int i =0; i< n;i++) {
-
-                    switch(opType) {
-                        case ADD: res.push_back(this->val[start+i] + m.val[i]);
-                            break;
-                        case MUL: res.push_back(this->val[start+i] * m.val[i]);
-                            break;
-                        case DIV: res.push_back(this->val[start+i] / m.val[i]);
-                            break;
-                    }
-
-                }
-
-                start += n;
-
+            vector<T> resVal;
+            switch(opType) {
+                case ADD: resVal = this->val + temp;
+                    break;
+                case MUL: resVal = this->val * temp;
+                    break;
+                case DIV: resVal = this->val / temp;
+                    break;
             }
-
-            return Matrix<T>(res,s);
+            
+            return Matrix<T>(resVal, this->shape);
 
         } else {
             assert(false && "Matrices are not compatible for operation with broadcasting");
         }
     }
+
+    void operationUtil(vector<T> &res2,
+                    const vector<T> &res1,
+                    vector<int> &stack,
+                    const vector<int> &resElems,
+                    int dim) {
+        /* 
+            Case when we've reached the same dimension as to when
+            we need to add up all elemnts across this axis
+        */
+        if(dim == resElems.size()) {
+            int p = 0;
+            int s = 0;
+
+            for(int i = 0;i < stack.size();i++) {
+                p += elemsEncounteredPerDim[i]*stack[i]; // get index in big matrix.
+                s += resElems[i]*stack[i]; // get index in small matrix that indicate the element we want to duplicate.
+            }
+            
+            /*
+                so p is start of input vector
+                and so is start of resultant vector.
+
+                Add all elements across axis.
+            */
+            for(int j = 0; j < elemsEncounteredPerDim[dim-1];j++) { // iterate over how many elemenbts left
+                res2[p+j] = res1[s];
+            }
+
+            return;
+        }
+
+        // Getting the various input positions to do our add Operation.
+        for(int i = 0;i < this->shape.at(dim);i++) {
+            stack.push_back(i); // Calculates how many elements have been processed, to get pointer to right location in val and pushes to stack
+            operationUtil(res2,res1,stack,resElems,dim+1);
+            stack.pop_back(); // Pops out of stack
+        }
+    }
+
 
     /*
         Add matrix along some axis and return the result

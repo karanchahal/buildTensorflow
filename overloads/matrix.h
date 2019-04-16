@@ -38,14 +38,10 @@ namespace matrixOps {
     Matrix<T> softmax(Matrix<T> &a, int axis) {
         auto e = a.exp();
         auto sum = e.addAxis(axis);
-        sum.shape.push_back(1);
-        e.shape.push_back(1);
         auto ans = e/sum;
-        ans.shape.pop_back();
         return ans;
     }
 };
-
 // Overloaded function for printing matrix: cout<<matrix<<endl;
 template<typename T>
 ostream & operator << (ostream &out, Matrix<T> &m) {
