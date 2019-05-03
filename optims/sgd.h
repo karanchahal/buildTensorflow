@@ -27,9 +27,12 @@ class SGD : public Optimizer<T> {
 
     public: 
 
-    SGD(T lr) {
+    bool debug = true;
+
+    SGD(T lr, bool debug=true) {
         this->params.clear();
         this->lr = lr;
+        this->debug = debug;
     }
 
     /*
@@ -56,12 +59,14 @@ class SGD : public Optimizer<T> {
 
             if(op) {
 
-                if(op->t1 != NULL && this->params.find(op->t1) == this->params.end()) {
+                if(op->t1 != NULL && this->params.find(op->t1) == this->params.end() &&
+                    op->t1->requires_grad) {
                     q.push(op->t1);
                     this->params.insert(op->t1);
                 }
 
-                if(op->t2 != NULL && this->params.find(op->t2) == this->params.end()) {
+                if(op->t2 != NULL && this->params.find(op->t2) == this->params.end()
+                    && op->t2->requires_grad) {
                     q.push(op->t2);
                     this->params.insert(op->t2);
                 }
@@ -89,11 +94,50 @@ class SGD : public Optimizer<T> {
        
     }
 
+    void plot(Tensor<T> *t) {
+        int total = t->grad.val.size();
+        float zeros = 0;
+        for(auto i: t->grad.val) {
+            if (i == 0) {
+                zeros++;
+            }
+        }
+
+        auto percentZeros = zeros*10/total;
+        
+        cout<<t->name<<" | ";
+        for(int i = 0;i <10;i++) {
+            if(i < percentZeros) {
+                cout<<"#";
+            } else {
+                cout<<" ";
+            }
+        }
+        cout<<" |"<<endl;
+
+    }
+
     // Performs 1 step of gradient descent. See top of the file to see definition of SGD. 
     void step(T learning_rate) {
+
+        if(debug) {   
+            // cout<<"Number of parameters updated: "<< this->params.size()<<endl;
+            cout<<"----------------------------------------------------"<<endl;
+        }
+        // cout<<"Names of these parameters are: "<<endl;
         for(auto t: this->params) {
+            // cout<<t->name<<endl;
+            if(debug) {
+                plot(t);
+            }
             t->val = t->val - learning_rate*t->grad;
         }
+        
+        if(debug) {
+            cout<<"----------------------------------------------------"<<endl;
+        }
+
+
     }
 
 };

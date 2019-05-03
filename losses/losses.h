@@ -44,11 +44,39 @@ namespace losses {
     Tensor<T>* binary_cross_entropy(Tensor<T>* y, Tensor<T>* ground_truth) {
 
         auto probs = tensorOps::softmax(y,1);
+        probs->name = "logits";
         auto z = tensorOps::multiply(probs, ground_truth);
+        z->name = "one_hot_multiplication";
         auto z2 = tensorOps::add(z,1);
+        z2->name = "y";
         auto z3 = tensorOps::log(z2);
+        z3->name = "log";
         auto z4 = tensorOps::multiply((T)-1, z3);
+        z4->name = "negative log liklihood";
         auto z5 = tensorOps::average(z4,0);
+        z5->name = "loss";
+        return z5;
+    }
+
+    /*
+        Computes Log softmax
+    */
+    template<typename T>
+    Tensor<T>* log_softmax(Tensor<T>* y, int axis) {
+        auto probs = tensorOps::softmax(y,1);
+        return tensorOps::log(probs);
+    } 
+
+    /*
+        NLL Loss
+    */
+    template<typename T>
+    Tensor<T>* nll_loss(Tensor<T>* y, Tensor<T>* ground_truth) {
+        // TODO
+        auto z4 = tensorOps::multiply((T)-1, y);
+        auto q = tensorOps::multiply(z4, ground_truth);
+        auto z2 = tensorOps::add(q,1);
+        auto z5 = tensorOps::average(z2,0);
 
         return z5;
     }

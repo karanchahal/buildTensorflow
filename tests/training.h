@@ -16,10 +16,10 @@ TEST(TRAINING_TEST, Celsius2FahrenheitTest) {
     dataset.create(5);
 
     // Create Model
-    Dense<float> fc1(1,1,NO_ACTIVATION);
+    Dense<float> fc1(1,1,"fc1", NO_ACTIVATION);
 
     // Initialise Optimiser
-    SGD<float> sgd(0.01);
+    SGD<float> sgd(0.01, false);
     
     // Train
     for(int j = 0;j<2000;j++) {

@@ -15,12 +15,25 @@
 template <typename T>
 void AddOperation<T>::backward(Matrix<T> grad) {
     if(this->axis == -1) {
-        this->t1->backward(grad);
-        this->t2->backward(grad);
+        
+        if(this->t1->val.shape == this->t2->val.shape) {
+            this->t1->backward(grad);
+            this->t2->backward(grad);
+        } else {
+
+            //Example used for addition with biases
+            // 64, 10 (1) added to 10 (2)
+            // into 1 goes expanded 2 matrix
+            // into 2 goes compressed 1 matrix
+            
+            this->t1->backward(grad);
+            auto compressedGrad = grad.addAxis(0); 
+            this->t2->backward(compressedGrad);
+        }
+
     } else {
         int expansion = this->t1->val.shape[axis];
         auto expandedGrad = matrixOps::expandAlong(grad, axis, expansion);
-        cout<<expandedGrad<<endl;
         this->t1->backward(expandedGrad);
     }
 

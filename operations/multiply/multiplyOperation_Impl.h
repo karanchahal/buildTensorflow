@@ -19,6 +19,7 @@
 */
 template <typename T>
 void MultiplyOperation<T>::backward(Matrix<T> grad) {
+
     this->t1->backward(grad*this->t2->val);
     this->t2->backward(grad*this->t1->val);
 }

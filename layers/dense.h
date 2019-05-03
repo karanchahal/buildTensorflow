@@ -62,13 +62,13 @@ class Dense{
 
         By default activation used is Sigmoid and initialisation used is GLOROT
     */
-    Dense(int input_size, int output_size, activation act=SIGMOID, initalisation init=GLOROT) {
+    Dense(int input_size, int output_size, string name="fc", activation act=SIGMOID, initalisation init=GLOROT) {
         this->input_size = input_size;
         this->output_size = output_size;
 
         auto weightVal = initWeights(input_size, output_size, init);
-        this->weights = new Tensor<T>(weightVal,{input_size, output_size});
-        this->biases = new Tensor<T>(vector<T>(output_size,0), {1, output_size});
+        this->weights = new Tensor<T>(weightVal,{input_size, output_size}, name + "-weight");
+        this->biases = new Tensor<T>(vector<T>(output_size,0), {output_size}, name + "-bias");
 
         this->act = act;
     }
@@ -86,7 +86,9 @@ class Dense{
     Tensor<T>* forward(Tensor<T> *x) {
 
         auto dot = tensorOps::dot(x,weights);
+        dot->name = "dot_product";
         auto z = tensorOps::add(dot, biases);
+        z->name = "bias_add";
         Tensor<T>* logits;
         
         if(act == SIGMOID) {

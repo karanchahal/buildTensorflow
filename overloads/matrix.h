@@ -41,6 +41,37 @@ namespace matrixOps {
         auto ans = e/sum;
         return ans;
     }
+
+    template<typename T>
+    Matrix<T> gradSoftmax(Matrix<T> &a, int axis) {
+
+        // auto one = a.exp();
+        // auto sum = one.addAxis(1);
+
+        // auto three =  ((float)-1) * (one - sum);
+        // auto four = one * three;
+        // auto five = four/sum;
+        // auto six = five/sum;
+        
+
+
+        auto e = a.exp();
+        auto sum = e.addAxis(axis);
+        auto mult = e - sum;
+        auto diff = ((T)-1) * mult;
+        auto to_be_div = e * diff;
+        auto one = to_be_div/sum;
+        auto one_more = one/sum;
+
+        auto t3 = softmax(a, axis);
+        auto g = ((T)1 - t3) * t3; // (1 - F)*F
+
+        // cout<<g<<endl;
+
+        return one_more;
+    }
+
+    
 };
 // Overloaded function for printing matrix: cout<<matrix<<endl;
 template<typename T>

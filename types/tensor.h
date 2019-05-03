@@ -19,6 +19,7 @@
 */
 
 #include "operations/operation.h"
+#include <string>
 
 #ifndef __TENSOR_FLOAT_INCLUDED__   
 #define __TENSOR_FLOAT_INCLUDED__   
@@ -56,6 +57,12 @@ class Tensor {
     Tensor() {
     }
 
+    // Name of Tensor
+    string name = "none";
+
+    // allows gradient flow ?
+    bool requires_grad = true;
+
     /*
         This is a copy constructor needed for when we need to copy a tensor out to a new
         tensor object.
@@ -80,6 +87,19 @@ class Tensor {
     */
     Tensor(vector<T> val, vector<int> shape) {
         this->val = Matrix<T>(val, shape);
+        zeroGrad();
+    }
+
+    /*
+        Constructor to create Tensor from a value vector and shape vector.
+        The matrix class takes as input these two parameters and this constructor provides
+        an easy way to create tensors.
+
+        With an extra name parameter: for debugging
+    */
+    Tensor(vector<T> val, vector<int> shape, string name) {
+        this->val = Matrix<T>(val, shape);
+        this->name = name;
         zeroGrad();
     }
 
@@ -109,7 +129,7 @@ class Tensor {
     void backward(Matrix<T> grad) {
         assert(grad.shape == val.shape && "The gradient and the tensor shapes do not match !");
         this->grad = this->grad + grad;
-        if(this->backOp != NULL) {
+        if(this->backOp != NULL && requires_grad) {
             this->backOp->backward(grad);
         }
     }
@@ -133,7 +153,7 @@ class Tensor {
         See constructor for it's usage.
     */
     void zeroGrad() {
-        assert(val.shape.size() != 0 && "The value of matrix cannot be uninitialised during initialisng zeros in tensor's gradient");
+        assert(val.shape.size() != 0 && "The value of matrix cannot be uninitialised during initialising zeros in tensor's gradient");
         vector<T> g(val.val.size(), 0);
         this->grad = Matrix<T>(g, val.shape);
     }

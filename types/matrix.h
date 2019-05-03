@@ -8,7 +8,7 @@
 #ifndef __MATRIX_FLOAT_INCLUDED__   
 #define __MATRIX_FLOAT_INCLUDED__  
 
-enum OperationType {ADD, DIV, MUL}; 
+enum OperationType {ADD, DIV, MUL, SUB}; 
 
 template<typename T>
 struct Matrix{
@@ -248,17 +248,19 @@ struct Matrix{
         // auto res = this->val + rhs.val;
         // auto resShape = this->shape;
         // return Matrix(res, resShape);
-        return operation(rhs, ADD);
+        return operation2(rhs, ADD);
     }
 
     // Performs elementwise subtraction
     Matrix<T> operator - (const Matrix<T> &rhs) {
-        assert("Shapes aren't compatible for addition !" &&
-         verifyShapeForElementwiseOperation(this->shape, rhs.shape));
+        // assert("Shapes aren't compatible for addition !" &&
+        //  verifyShapeForElementwiseOperation(this->shape, rhs.shape));
 
-        auto res = this->val - rhs.val;
-        auto resShape = this->shape;
-        return Matrix(res, resShape);
+        // auto res = this->val - rhs.val;
+        // auto resShape = this->shape;
+        // return Matrix(res, resShape);
+
+        return operation(rhs, SUB);
     }
 
     // Performs elementwise division
@@ -326,6 +328,73 @@ struct Matrix{
     }
 
 
+    Matrix<T> operation2(const Matrix<T> &m, OperationType opType) {
+
+        int i = this->shape.size()-1;
+        int j = m.shape.size() -1;
+        bool allGood = false;
+
+        while(true) {
+
+            if(j < 0) {
+                allGood = true;
+                break;
+            }
+
+            if(i < 0) {
+                allGood = false;
+                break;
+            }
+
+            if(this->shape[i] != m.shape[j]) {
+                allGood = false;
+                break;
+            }
+
+            i--;
+            j--;
+        }
+
+        if(allGood) {
+            vector<T> res;
+            vector<int> s = this->shape;
+            // j++; // index where the two matrices are equal
+            
+            int n = this->val.size();
+            if(i != -1) {
+                n = elemsEncounteredPerDim[i];
+            } 
+        
+            int start = 0;
+            while(start < this->val.size()) {
+            
+                for(int i =0; i< n;i++) {
+
+                    switch(opType) {
+                        case ADD: res.push_back(this->val[start+i] + m.val[i]);
+                            break;
+                        case MUL: res.push_back(this->val[start+i] * m.val[i]);
+                            break;
+                        case DIV: res.push_back(this->val[start+i] / m.val[i]);
+                            break;
+                        case SUB: res.push_back(this->val[start+i] - m.val[i]);
+                            break;
+                    }
+
+                }
+
+                start += n;
+
+            }
+
+            return Matrix<T>(res,s);
+
+        } else {
+            assert(false && "Matrices are not compatible for operation with broadcasting");
+        }
+    }
+
+
     Matrix<T> operation(const Matrix<T> &m, OperationType opType) {
 
         int i = 0;
@@ -366,6 +435,8 @@ struct Matrix{
                 case MUL: resVal = this->val * temp;
                     break;
                 case DIV: resVal = this->val / temp;
+                    break;
+                case SUB: resVal = this->val - temp;
                     break;
             }
             
@@ -477,6 +548,15 @@ struct Matrix{
             addAxisUtil(res,stack,resElems,dim+1,axis);
             stack.pop_back(); // Pops out of stack
         }
+    }
+
+    // Squeeze, removes dimension from shape from axis index
+    void squeeze(int axis) {
+        assert(( axis < this->shape.size() || this->shape[axis] == 1) &&
+         " Can't squeeze this dimension");
+
+        this->shape.erase(this->shape.begin() + axis);
+        
     }
 
     // Delete matrix

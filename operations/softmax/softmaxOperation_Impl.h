@@ -19,8 +19,10 @@
 */
 template <typename T>
 void SoftmaxOperation<T>::backward(Matrix<T> grad) {
-    auto g = ((T)1 - this->t3->val) * this->t3->val; // (1 - F)*F
-    this->t1->backward(grad * g); // follow chain rule by multiplying by incoming gradient
+    // auto g = ((T)1 - this->t3->val) * this->t3->val; // (1 - F)*F
+    auto g = matrixOps::gradSoftmax(this->t1->val, axis);
+    auto finalgrad = g * grad;
+    this->t1->backward(grad); // follow chain rule by multiplying by incoming gradient
 }
 
 /* 

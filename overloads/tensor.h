@@ -70,6 +70,7 @@ namespace tensorOps {
     template<typename T>
     Tensor<T>* multiply(T v, Tensor<T>* two) {
         auto one = new Tensor<T>(vector<T>(two->val.val.size(), v), two->val.shape);
+        one->requires_grad=false;
         return multiply(one,two);
     }
 

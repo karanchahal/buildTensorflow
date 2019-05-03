@@ -19,7 +19,7 @@ TEST(SGD_OPTIM_TESTS, TENSOR_UPDATE_CHECK) {
     auto e = tensorOps::multiply(c,d);
     e->backward();
 
-    SGD<float> sgd(0.1);
+    SGD<float> sgd(0.1, false);
     // get all paramters/tensors that need to be updated wrt to e
     sgd.getParams(e);
     unordered_set<Tensor<float>*> expected_res = {a,b,c,d};
@@ -41,7 +41,7 @@ TEST(SGD_OPTIM_TESTS, SGD_STEP_CHECK) {
     auto e = tensorOps::multiply(c,d);
     e->backward();
 
-    SGD<float> sgd(1);
+    SGD<float> sgd(1, false);
     // get all paramters/tensors that need to be updated wrt to e
     sgd.minimise(e);
 
