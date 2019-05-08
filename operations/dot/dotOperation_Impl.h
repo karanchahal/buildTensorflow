@@ -5,6 +5,7 @@
 
 #include "operations/dot/dotOperation.h"
 #include "utils/matrix.h"
+#include <chrono>
 
 #ifndef __OP_DOT_IMPL_INCLUDED__  
 #define __OP_DOT_IMPL_INCLUDED__  
@@ -50,8 +51,17 @@ Tensor<T> DotOperation<T>::forwardDeprecated() {
 */
 template <typename T>
 Tensor<T>* DotOperation<T>::forward() {
-
+    // Timing information
+    auto start = std::chrono::high_resolution_clock::now();
+    
     auto val3 = this->t1->val.dot(this->t2->val);
+    
+    auto stop = std::chrono::high_resolution_clock::now(); 
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start); 
+
+
+    //  std::cout <<"Speed of Multiplication: " << duration.count() <<" micro seconds"<<std::endl; 
+
     this->t3 = new Tensor<T>(val3,this);
     return this->t3;
 }

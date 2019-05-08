@@ -16,15 +16,12 @@ template <typename T>
 void AverageOperation<T>::backward(Matrix<T> grad) {
   
     int expansion = this->t1->val.shape[axis];
-    if(this->t1->val.shape == grad.shape) {
-        this->t1->backward(grad);
-    } else {
-        auto expandedGrad = matrixOps::expandAlong(grad, axis, expansion);
-        // Temporary Fix: TODO make consistent across codebase
-        // Removing extra dimension from shape
-        expandedGrad.squeeze(1);
-        this->t1->backward(expandedGrad/(T)expansion);
-    }
+    auto expandedGrad = matrixOps::expandAlong(grad, axis, expansion);
+    // Temporary Fix: TODO make consistent across codebase
+    // Removing extra dimension from shape
+    expandedGrad.squeeze(1);
+    this->t1->backward(expandedGrad/(T)expansion);
+
 
 }
 

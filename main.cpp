@@ -51,20 +51,25 @@ void mnistTest() {
     displayImage(train_images[0], train_labels[0]);
     
     // Create Model
-    Dense<float> fc1(784, 10,"fc-1", SIGMOID);
-    // Dense<float> fc2(200, 200,"fc-2", SIGMOID);
-    Dense<float> fc3(10, 10, "fc-3", NO_ACTIVATION);
+    Dense<float> fc1(784, 200,"fc-1", SIGMOID);
+    Dense<float> fc2(200, 200,"fc-2", SIGMOID);
+    Dense<float> fc3(200, 10, "fc-3", NO_ACTIVATION);
 
     // Initialise Optimiser
-    SGD<float> sgd(0.0001, false);
+    SGD<float> sgd(0.001, false);
 
     int batch_size = 1;
     int num_classes = 10;
     int print_after = 100;
 
+    // For reducing lr
+    float last_loss = 10000;
+
     // Train
-    int num_examples = 1;
-    for(int j = 0;j<5000;j++) {
+    int num_examples = 2;
+    int num_epochs = 45;
+
+    for(int j = 0;j<num_epochs;j++) {
 
         int ld = 0;
         float loss_till_now = 0;
@@ -87,9 +92,9 @@ void mnistTest() {
             // Forward Prop
             auto temp = fc1.forward(inp);
             temp->name="output-fc1";
-            // auto temp2 = fc2.forward(temp);
-            // temp2->name="output-fc2";
-            auto out = fc3.forward(temp);
+            auto temp2 = fc2.forward(temp);
+            temp2->name="output-fc2";
+            auto out = fc3.forward(temp2);
             out->name="output-fc3";
             
             // Get Loss
@@ -97,8 +102,15 @@ void mnistTest() {
             
             // Compute backProp
             finalLoss->backward();
+            
+            // Adaptively change lr            
+            if(last_loss < finalLoss->val.val[0]) {
+                sgd.lr /= 10;
+            } 
 
-            cout<<finalLoss->val<<endl;
+            last_loss = finalLoss->val.val[0];
+
+            std::cout<<finalLoss->val.val[0]<<endl;
 
             // Perform Gradient Descent
             sgd.minimise(finalLoss);
@@ -111,7 +123,7 @@ void mnistTest() {
             loss_till_now += h;
 
             if((kl+1)%(print_after*batch_size) == 0) {
-                cout<<loss_till_now*batch_size/(kl+1)<<endl;
+                // cout<<loss_till_now*batch_size/(kl+1)<<endl;
             }
 
             ld++;   
