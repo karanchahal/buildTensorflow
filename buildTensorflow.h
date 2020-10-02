@@ -1,3 +1,6 @@
+// Check whether GPU is accessible or not
+bool gpu = false;
+
 #include "types/tensor.h" 
 #include "overloads/tensor.h"
 #include "operations/operations_Impl.h"

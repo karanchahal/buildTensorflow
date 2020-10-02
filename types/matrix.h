@@ -18,8 +18,7 @@ struct Matrix{
     */
     vector<int> elemsEncounteredPerDim;
 
-    // Check whether GPU is accessible or not
-    bool gpu = false;
+
 
     // Verifies that the shape provided and val vector provided are compatible in size
     bool verifyShape(const vector<T> &val, const vector<int> &shape) {

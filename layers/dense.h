@@ -37,6 +37,9 @@ class Dense{
         if(init == GLOROT) {
             return utils::glorotInit<T>(fan_in, fan_out);
         }
+
+        // Default return zero vector
+        return vector<T>(fan_in*fan_out,0);
     }
 
     public:
